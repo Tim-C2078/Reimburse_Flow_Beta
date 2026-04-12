@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
@@ -81,6 +82,17 @@ export default function layout({ children }: { children: React.ReactNode }) {
               </li>
             </Link>
           </ul>
+          <div className="flex flex-row items-center justify-center absolute bottom-6 py-5">
+            <Avatar className="mr-3">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Link href="/">
+              <div className="buttonEffects shadow-2xl rounded-2xl py-5 px-9 h-8 bg-white text-black hover:bg-black hover:text-white flex justify-center items-center cursor-pointer">
+                Logout
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
 
