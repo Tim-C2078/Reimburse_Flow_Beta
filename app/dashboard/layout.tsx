@@ -9,13 +9,15 @@ export default function layout({ children }: { children: React.ReactNode }) {
           <Image src="/logo.png" alt="logo" width={30} height={30} />
           Reimburse Flow
         </div>
+
         <div>
           <hr />
         </div>
+
         <div>
           <ul>
-            <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
-              <Link href="/dashboard" className="flex items-center">
+            <Link href="/dashboard">
+              <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
                 <Image
                   className="px-1 pr-2"
                   src="/dashboard.png"
@@ -24,14 +26,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   height={30}
                 />
                 Dashboard
-              </Link>
-            </li>
+              </li>
+            </Link>
 
-            <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
-              <Link
-                href="/dashboard/generate-report"
-                className="flex items-center"
-              >
+            <Link href="/dashboard/generate-report">
+              <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
                 <Image
                   className="px-1 pr-2"
                   src="/PettyCash.png"
@@ -40,11 +39,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   height={30}
                 />
                 Generate Report
-              </Link>
-            </li>
+              </li>
+            </Link>
 
-            <li className="hover:bg-white rounded-b-sm  my-4 p-4 flex items-center cursor-pointer">
-              <Link href="/dashboard/users" className="flex items-center">
+            <Link href="/dashboard/users">
+              <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
                 <Image
                   className="px-1 pr-2"
                   src="/users.png"
@@ -53,11 +52,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   height={30}
                 />
                 User Management
-              </Link>
-            </li>
+              </li>
+            </Link>
 
-            <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
-              <Link href="/dashboard/shops" className="flex items-center">
+            <Link href="/dashboard/shops">
+              <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
                 <Image
                   className="px-1 pr-2"
                   src="/user.png"
@@ -66,14 +65,11 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   height={30}
                 />
                 Stores
-              </Link>
-            </li>
+              </li>
+            </Link>
 
-            <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
-              <Link
-                href="/dashboard/notification"
-                className="flex items-center"
-              >
+            <Link href="/dashboard/notification">
+              <li className="hover:bg-white rounded-b-sm my-4 p-4 flex items-center cursor-pointer">
                 <Image
                   className="px-1 pr-2"
                   src="/notification.png"
@@ -82,8 +78,8 @@ export default function layout({ children }: { children: React.ReactNode }) {
                   height={30}
                 />
                 Notification
-              </Link>
-            </li>
+              </li>
+            </Link>
           </ul>
         </div>
       </div>
