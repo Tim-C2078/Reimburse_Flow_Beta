@@ -1,0 +1,22 @@
+.login input[type="text"],
+.login input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  border-bottom: 2px solid white;
+
+  transition: 0.3s;
+
+  /* Slight transparency for style */
+  background-color: white;
+  color: #000;
+}
+
+.login input:focus {
+  border-bottom-color: black;
+  transform: scaleX(1.02);
+}
