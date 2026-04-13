@@ -43,7 +43,7 @@ export default function Home() {
 
           {btn ? (
             <Button
-              className="w-full my-5 hover:bg-black hover:text-white shadow-lg font-extrabold"
+              className="cursor-pointer w-full my-5 hover:bg-black hover:text-white shadow-lg font-extrabold"
               onClick={handleClick}
               variant="outline"
             >
@@ -51,7 +51,7 @@ export default function Home() {
             </Button>
           ) : (
             <Button
-              className="w-full my-5 hover:bg-black hover:text-white shadow-lg font-extrabold"
+              className=" cursor-pointer w-full my-5 hover:bg-black hover:text-white shadow-lg font-extrabold"
               variant="outline"
               disabled
             >
