@@ -86,7 +86,7 @@ export const paymentsData: Payment[] = [
     initial_amount: 125,
     approved_amount: 125,
     comments: "Approved",
-    status: "processing",
+    status: "received",
     proofs: "proof2.png",
     date: new Date(),
   },

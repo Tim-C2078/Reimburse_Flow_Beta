@@ -40,8 +40,6 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  selectedDate,
-  setSelectedDate,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -50,10 +48,17 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  // ✅ FIX: default is TODAY active
-  const [filterMode, setFilterMode] = React.useState<"today" | "all" | "clear">(
-    "today",
-  );
+  const [filterMode, setFilterMode] = React.useState<
+    | "all"
+    | "admin"
+    | "finance"
+    | "store"
+    | "area coach"
+    | "regional coach"
+    | "supreme admin"
+    | "online"
+    | "offline"
+  >("all");
 
   const table = useReactTable({
     data,
@@ -78,20 +83,11 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // ✅ FIX: apply external selected date (from dashboard)
-  React.useEffect(() => {
-    if (selectedDate) {
-      table.getColumn("date")?.setFilterValue(selectedDate);
-      setFilterMode("all");
-    }
-  }, [selectedDate]);
-
-  // 🔥 FIX: APPLY "TODAY" ON FIRST LOAD
-  React.useEffect(() => {
-    if (filterMode === "today") {
-      table.getColumn("date")?.setFilterValue(new Date());
-    }
-  }, []);
+  // ✅ RESET ALL FILTERS HELPER
+  const resetFilters = () => {
+    table.getColumn("role")?.setFilterValue(undefined);
+    table.getColumn("status")?.setFilterValue(undefined);
+  };
 
   return (
     <>
@@ -115,42 +111,129 @@ export function DataTable<TData, TValue>({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent>
-            {/* TODAY */}
-            <DropdownMenuCheckboxItem
-              checked={filterMode === "today"}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFilterMode("today");
-                  table.getColumn("date")?.setFilterValue(new Date());
-                }
-              }}
-            >
-              Today
-            </DropdownMenuCheckboxItem>
-
-            {/* SHOW ALL */}
+            {/* ALL */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "all"}
               onCheckedChange={(checked) => {
                 if (checked) {
                   setFilterMode("all");
-                  table.getColumn("date")?.setFilterValue(undefined);
+                  resetFilters();
                 }
               }}
             >
-              Show All
+              All
             </DropdownMenuCheckboxItem>
+
+            {/* ADMIN */}
             <DropdownMenuCheckboxItem
-              checked={filterMode === "clear"}
+              checked={filterMode === "admin"}
               onCheckedChange={(checked) => {
                 if (checked) {
-                  setFilterMode("clear");
-                  table.getColumn("date")?.setFilterValue(undefined);
-                  setSelectedDate?.(null);
+                  setFilterMode("admin");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("admin");
                 }
               }}
             >
-              Clear Date
+              Admin
+            </DropdownMenuCheckboxItem>
+
+            {/* STORE */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "store"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("store");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("store");
+                }
+              }}
+            >
+              Stores
+            </DropdownMenuCheckboxItem>
+
+            {/* FINANCE */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "finance"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("finance");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("finance");
+                }
+              }}
+            >
+              Finance
+            </DropdownMenuCheckboxItem>
+
+            {/* AREA COACH */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "area coach"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("area coach");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("area coach");
+                }
+              }}
+            >
+              Area Coaches
+            </DropdownMenuCheckboxItem>
+
+            {/* REGIONAL COACH */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "regional coach"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("regional coach");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("regional coach");
+                }
+              }}
+            >
+              Regional Coaches
+            </DropdownMenuCheckboxItem>
+
+            {/* SUPREME ADMIN */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "supreme admin"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("supreme admin");
+                  resetFilters();
+                  table.getColumn("role")?.setFilterValue("supreme admin");
+                }
+              }}
+            >
+              Supreme Admin
+            </DropdownMenuCheckboxItem>
+
+            {/* ONLINE */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "online"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("online");
+                  resetFilters();
+                  table.getColumn("status")?.setFilterValue("online");
+                }
+              }}
+            >
+              Online
+            </DropdownMenuCheckboxItem>
+
+            {/* OFFLINE */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "offline"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("offline");
+                  resetFilters();
+                  table.getColumn("status")?.setFilterValue("offline");
+                }
+              }}
+            >
+              Offline
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
