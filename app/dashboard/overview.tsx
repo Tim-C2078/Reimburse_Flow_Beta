@@ -177,6 +177,7 @@ const Dashboard = () => {
           columns={columns}
           data={paymentsData}
           selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
       </div>
     </>

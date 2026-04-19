@@ -17,7 +17,13 @@ export type Payment = {
   initial_amount: number;
   approved_amount: number;
   comments: "Approved";
-  status: "pending" | "processing" | "under review" | "paid" | "sent";
+  status:
+    | "pending"
+    | "processing"
+    | "under review"
+    | "paid"
+    | "sent"
+    | "received";
   proofs: string;
   date: Date;
 };
@@ -164,14 +170,16 @@ export const columns: ColumnDef<Payment>[] = [
 
       const color =
         status === "paid"
-          ? "bg-green-600 text-white"
+          ? "bg-green-500 text-white"
           : status === "pending"
-            ? "bg-yellow-600 text-white"
+            ? "bg-yellow-500 text-white"
             : status === "under review"
-              ? "bg-red-600 text-white"
-              : status === "processing"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-600 text-white";
+              ? "bg-red-500 text-white"
+              : status === "received"
+                ? "bg-orange-500 text-white"
+                : status === "processing"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-500 text-white";
 
       return <Badge className={color}>{label}</Badge>;
     },

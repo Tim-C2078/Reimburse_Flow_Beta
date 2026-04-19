@@ -34,12 +34,14 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   selectedDate?: Date | null;
+  setSelectedDate?: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   selectedDate,
+  setSelectedDate,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -47,7 +49,11 @@ export function DataTable<TData, TValue>({
   );
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [showAll, setShowAll] = React.useState(false);
+
+  // ✅ FIX: default is TODAY active
+  const [filterMode, setFilterMode] = React.useState<"today" | "all" | "clear">(
+    "today",
+  );
 
   const table = useReactTable({
     data,
@@ -72,14 +78,20 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // 🔥 APPLY DATE FILTER FROM DASHBOARD
+  // ✅ FIX: apply external selected date (from dashboard)
   React.useEffect(() => {
     if (selectedDate) {
       table.getColumn("date")?.setFilterValue(selectedDate);
-    } else {
-      table.getColumn("date")?.setFilterValue(undefined);
+      setFilterMode("all");
     }
-  }, [selectedDate, table]);
+  }, [selectedDate]);
+
+  // 🔥 FIX: APPLY "TODAY" ON FIRST LOAD
+  React.useEffect(() => {
+    if (filterMode === "today") {
+      table.getColumn("date")?.setFilterValue(new Date());
+    }
+  }, []);
 
   return (
     <>
@@ -94,31 +106,46 @@ export function DataTable<TData, TValue>({
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">Reset</Button>
+            <Button variant="outline">Filter</Button>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent>
+            {/* TODAY */}
             <DropdownMenuCheckboxItem
-              checked={showAll}
+              checked={filterMode === "today"}
               onCheckedChange={(checked) => {
-                setShowAll(checked);
                 if (checked) {
-                  table.getColumn("date")?.setFilterValue(undefined);
+                  setFilterMode("today");
+                  table.getColumn("date")?.setFilterValue(new Date());
                 }
               }}
             >
               Today
             </DropdownMenuCheckboxItem>
+
+            {/* SHOW ALL */}
             <DropdownMenuCheckboxItem
-              checked={showAll}
+              checked={filterMode === "all"}
               onCheckedChange={(checked) => {
-                setShowAll(checked);
                 if (checked) {
+                  setFilterMode("all");
                   table.getColumn("date")?.setFilterValue(undefined);
                 }
               }}
             >
               Show All
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "clear"}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  setFilterMode("clear");
+                  table.getColumn("date")?.setFilterValue(undefined);
+                  setSelectedDate?.(null);
+                }
+              }}
+            >
+              Clear Date
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
