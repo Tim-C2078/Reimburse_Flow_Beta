@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { FilePlus, FilePenLine, Trash } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -237,6 +238,15 @@ export function DataTable<TData, TValue>({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button className="cursor-pointer">
+          <FilePlus />
+        </Button>
+        <Button className="cursor-pointer">
+          <FilePenLine />
+        </Button>
+        <Button className="cursor-pointer">
+          <Trash />
+        </Button>
       </div>
 
       {/* TABLE */}

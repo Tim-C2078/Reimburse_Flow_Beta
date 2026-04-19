@@ -1,10 +1,14 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import chartredAnimation from "@/app/dashboard/users/Red Pulsing Dot.json";
+import chartgreenAnimation from "@/app/dashboard/users/Green Live Signal.json";
+import Lottie from "lottie-react";
 
 export type Users = {
   id: string;
@@ -132,12 +136,15 @@ export const columns: ColumnDef<Users>[] = [
       const status = row.getValue("status") as string;
       const label = status.toUpperCase();
 
-      const color =
-        status === "online"
-          ? "bg-green-500 text-white"
-          : "bg-red-500 text-white";
+      const animation =
+        status === "online" ? chartgreenAnimation : chartredAnimation;
 
-      return <Badge className={color}>{label}</Badge>;
+      return (
+        <Badge className="bg-transparent text-back">
+          <Lottie animationData={animation} loop className="w-full h-30" />
+          {label}
+        </Badge>
+      );
     },
   },
   {
