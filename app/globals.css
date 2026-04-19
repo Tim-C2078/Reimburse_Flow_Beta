@@ -142,4 +142,5 @@
 .buttonEffects:hover {
   background-position: left bottom;
   color: white;
+  cursor: pointer;
 }

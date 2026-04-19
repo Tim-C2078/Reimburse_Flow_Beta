@@ -4,129 +4,212 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import Lottie from "lottie-react";
 import chartAnimation from "./Bar Chart.json";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { columns } from "@/components/Payments/columns";
+import { paymentsData } from "@/components/Payments/data";
+import { DataTable } from "@/components/Payments/data-table";
 
 const Dashboard = () => {
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+
+  const dates = Array.from({ length: 7 }).map((_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 2 + index);
+    return date;
+  });
+
+  const formatDate = (date: Date) => ({
+    dayName: date.toLocaleDateString("en-US", { weekday: "long" }),
+    month: date.toLocaleString("en-US", { month: "long" }),
+    day: date.getDate(),
+    year: date.getFullYear(),
+  });
+
   return (
-    <div>
-      <h1 className="text-2xl font-semibold leading-none tracking-tight mx-4">
-        Overview
-      </h1>
-
-      <p className="text-sm text-muted-foreground mt-2 mx-4">
-        This section provides a comprehensive overview of all store petty cash
-        data and their respective statuses.
-      </p>
-
-      <div className="grid lg:grid-cols-4 gap-4 my-7 mx-4">
-        {/* CARD 1 */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle>Total Petty Cash</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                $9,000,000
-              </h2>
-
-              <div className="w-16 h-16 flex-shrink-0">
-                <Lottie
-                  animationData={chartAnimation}
-                  loop
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-
-            <p className="text-sm mt-2 text-muted-foreground">
-              No data available
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* CARD 2 */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle>Total Pending</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                $50,000
-              </h2>
-
-              <div className="w-16 h-16 flex-shrink-0">
-                <Lottie
-                  animationData={chartAnimation}
-                  loop
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-
-            <p className="text-sm mt-2 text-muted-foreground">
-              No data available
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* CARD 3 */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle>Total Processing</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                $600
-              </h2>
-
-              <div className="w-16 h-16 flex-shrink-0">
-                <Lottie
-                  animationData={chartAnimation}
-                  loop
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-
-            <p className="text-sm mt-2 text-muted-foreground">
-              No data available
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* CARD 4 */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle>Total Paid</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <div className="flex items-center justify-between w-full">
-              <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                $5,000
-              </h2>
-
-              <div className="w-16 h-16 flex-shrink-0">
-                <Lottie
-                  animationData={chartAnimation}
-                  loop
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-
-            <p className="text-sm mt-2 text-muted-foreground">
-              No data available
-            </p>
-          </CardContent>
-        </Card>
+    <>
+      {/* HEADER */}
+      <div className="mb-5">
+        <h1 className="text-2xl font-semibold mx-4">Overview</h1>
+        <p className="text-sm text-muted-foreground mt-2 mx-4">
+          {" "}
+          This section provides a comprehensive overview of all store petty cash
+          data and their respective statuses.{" "}
+        </p>{" "}
+        <div className="grid lg:grid-cols-4 gap-4 my-7 mx-4">
+          {" "}
+          {/* CARD 1 */}{" "}
+          <Card className="shadow-md">
+            {" "}
+            <CardHeader>
+              {" "}
+              <CardTitle>Total Petty Cash</CardTitle>{" "}
+            </CardHeader>{" "}
+            <CardContent>
+              {" "}
+              <div className="flex items-center justify-between w-full">
+                {" "}
+                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
+                  {" "}
+                  $9,00,000{" "}
+                </h2>{" "}
+                <div className="w-16 h-16 flex-shrink-0">
+                  {" "}
+                  <Lottie
+                    animationData={chartAnimation}
+                    loop
+                    className="w-full h-full"
+                  />{" "}
+                </div>{" "}
+              </div>{" "}
+              <p className="text-sm mt-2 text-muted-foreground">
+                {" "}
+                No data available{" "}
+              </p>{" "}
+            </CardContent>{" "}
+          </Card>{" "}
+          {/* CARD 2 */}{" "}
+          <Card className="shadow-md">
+            {" "}
+            <CardHeader>
+              {" "}
+              <CardTitle>Total Pending</CardTitle>{" "}
+            </CardHeader>{" "}
+            <CardContent>
+              {" "}
+              <div className="flex items-center justify-between w-full">
+                {" "}
+                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
+                  {" "}
+                  $50,000{" "}
+                </h2>{" "}
+                <div className="w-16 h-16 flex-shrink-0">
+                  {" "}
+                  <Lottie
+                    animationData={chartAnimation}
+                    loop
+                    className="w-full h-full"
+                  />{" "}
+                </div>{" "}
+              </div>{" "}
+              <p className="text-sm mt-2 text-muted-foreground">
+                {" "}
+                No data available{" "}
+              </p>{" "}
+            </CardContent>{" "}
+          </Card>{" "}
+          {/* CARD 3 */}{" "}
+          <Card className="shadow-md">
+            {" "}
+            <CardHeader>
+              {" "}
+              <CardTitle>Total Processing</CardTitle>{" "}
+            </CardHeader>{" "}
+            <CardContent>
+              {" "}
+              <div className="flex items-center justify-between w-full">
+                {" "}
+                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
+                  {" "}
+                  $600{" "}
+                </h2>{" "}
+                <div className="w-16 h-16 flex-shrink-0">
+                  {" "}
+                  <Lottie
+                    animationData={chartAnimation}
+                    loop
+                    className="w-full h-full"
+                  />{" "}
+                </div>{" "}
+              </div>{" "}
+              <p className="text-sm mt-2 text-muted-foreground">
+                {" "}
+                No data available{" "}
+              </p>{" "}
+            </CardContent>{" "}
+          </Card>{" "}
+          {/* CARD 4 */}{" "}
+          <Card className="shadow-md">
+            {" "}
+            <CardHeader>
+              {" "}
+              <CardTitle>Total Paid</CardTitle>{" "}
+            </CardHeader>{" "}
+            <CardContent>
+              {" "}
+              <div className="flex items-center justify-between w-full">
+                {" "}
+                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
+                  {" "}
+                  $5,000{" "}
+                </h2>{" "}
+                <div className="w-16 h-16 flex-shrink-0">
+                  {" "}
+                  <Lottie
+                    animationData={chartAnimation}
+                    loop
+                    className="w-full h-full"
+                  />{" "}
+                </div>{" "}
+              </div>{" "}
+              <p className="text-sm mt-2 text-muted-foreground">
+                {" "}
+                No data available{" "}
+              </p>{" "}
+            </CardContent>{" "}
+          </Card>{" "}
+        </div>{" "}
       </div>
-    </div>
+
+      {/* DATE CAROUSEL */}
+      <div className="flex justify-center mx-12 my-5">
+        <Carousel className="w-full">
+          <CarouselContent>
+            {dates.map((date, index) => {
+              const { dayName, month, day, year } = formatDate(date);
+
+              return (
+                <CarouselItem
+                  key={index}
+                  className="flex justify-center lg:basis-1/5"
+                >
+                  <div
+                    onClick={() => setSelectedDate(date)}
+                    className={`p-5 rounded-lg cursor-pointer flex flex-col items-center
+                      ${
+                        selectedDate?.toDateString() === date.toDateString()
+                          ? "bg-primary text-white"
+                          : "hover:bg-muted"
+                      }`}
+                  >
+                    <div className="text-sm">{dayName}</div>
+                    <div className="font-semibold">
+                      {day} {month} {year}
+                    </div>
+                  </div>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      {/* TABLE */}
+      <div className="container mx-auto py-10">
+        <DataTable
+          columns={columns}
+          data={paymentsData}
+          selectedDate={selectedDate}
+        />
+      </div>
+    </>
   );
 };
 
