@@ -5,7 +5,7 @@ const createUser = () => {
   return (
     <>
       <div>
-        <h1 className="text-2xl font-semibold mx-1 my-5">Create New User</h1>
+        <h1 className="text-2xl font-semibold mx-1 my-5">Create New Petty Cash</h1>
       </div>
       <div>
         <form className="mx-5" action="">

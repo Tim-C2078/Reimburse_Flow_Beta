@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -56,6 +57,7 @@ export function DataTable<TData, TValue>({
   const [filterMode, setFilterMode] = React.useState<"today" | "all" | "clear">(
     "today",
   );
+  const router = useRouter();
 
   const table = useReactTable({
     data,
@@ -156,7 +158,14 @@ export function DataTable<TData, TValue>({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className="cursor-pointer">
+        <Button
+          onClick={() =>
+            router.push(
+              `/dashboard/create-new`,
+            )
+          }
+          className="cursor-pointer"
+        >
           <FilePlus />
         </Button>
       </div>
