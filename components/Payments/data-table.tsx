@@ -30,6 +30,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { FilePlus } from "lucide-react";
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -154,6 +156,9 @@ export function DataTable<TData, TValue>({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button className="cursor-pointer">
+          <FilePlus />
+        </Button>
       </div>
 
       {/* TABLE */}

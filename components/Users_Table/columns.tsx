@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import chartredAnimation from "@/app/dashboard/users/Red Pulsing Dot.json";
 import chartgreenAnimation from "@/app/dashboard/users/Green Live Signal.json";
 import Lottie from "lottie-react";
+import { FilePenLine, Trash } from "lucide-react";
+import { ActionsCell, User } from "@/components/actionCell";
 
 export type Users = {
   id: string;
@@ -21,7 +22,9 @@ export type Users = {
     | "finance"
     | "area coach"
     | "regional coach"
-    | "supreme admin";
+    | "supreme admin"
+    | "HR office"
+    | "Q and A";
   status: "online" | "offline";
   date: Date;
 };
@@ -42,7 +45,10 @@ export const columns: ColumnDef<Users>[] = [
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onCheckedChange={(value) => {
+          row.toggleSelected(!!value);
+          console.log("Row selected:", row.original);
+        }}
         aria-label="Select row"
       />
     ),
@@ -178,5 +184,10 @@ export const columns: ColumnDef<Users>[] = [
       const date = row.getValue("date") as Date;
       return new Date(date).toLocaleDateString();
     },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => <ActionsCell user={row.original} />,
   },
 ];

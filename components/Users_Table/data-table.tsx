@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { FilePlus, FilePenLine, Trash } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -30,6 +30,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import { FilePlus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -89,6 +92,7 @@ export function DataTable<TData, TValue>({
     table.getColumn("role")?.setFilterValue(undefined);
     table.getColumn("status")?.setFilterValue(undefined);
   };
+  const router = useRouter();
 
   return (
     <>
@@ -238,14 +242,13 @@ export function DataTable<TData, TValue>({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button className="cursor-pointer">
+        <Button
+          onClick={() => {
+            router.push("/dashboard/users/create-new");
+          }}
+          className="cursor-pointer"
+        >
           <FilePlus />
-        </Button>
-        <Button className="cursor-pointer">
-          <FilePenLine />
-        </Button>
-        <Button className="cursor-pointer">
-          <Trash />
         </Button>
       </div>
 

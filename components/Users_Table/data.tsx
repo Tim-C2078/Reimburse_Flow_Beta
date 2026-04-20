@@ -9,7 +9,9 @@ export type Users = {
     | "finance"
     | "area coach"
     | "regional coach"
-    | "supreme admin";
+    | "supreme admin"
+    | "HR office"
+    | "Q and A";
   status: "online" | "offline";
   date: Date;
 };

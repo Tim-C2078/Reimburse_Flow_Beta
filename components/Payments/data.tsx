@@ -14,6 +14,12 @@ export type Payment = {
     | "sent"
     | "received";
   proofs: string;
+  type:
+    | "operations"
+    | "maintenance"
+    | "welfare"
+    | "marketing"
+    | "regulatory expense";
   date: Date;
 };
 
@@ -28,18 +34,20 @@ export const paymentsData: Payment[] = [
     comments: "Wrong Invoice For Rice",
     status: "pending",
     proofs: "proof1.png",
+    type: "operations",
     date: new Date("2026-04-10"),
   },
   {
     id: "489e1d42",
     store: "Shop B",
     range_start: new Date("2026-04-10"),
-    range_end: new Date("2026-04-28"),
+    range_end: new Date("2026-04-10"),
     initial_amount: 125,
     approved_amount: 125,
     comments: "Approved",
     status: "processing",
     proofs: "proof2.png",
+    type: "welfare",
     date: new Date(),
   },
   {
@@ -52,6 +60,20 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "received",
     proofs: "proof2.png",
+    type: "maintenance",
+    date: new Date(),
+  },
+  {
+    id: "489e1d42",
+    store: "Shop B",
+    range_start: new Date("2026-04-10"),
+    range_end: new Date("2026-04-10"),
+    initial_amount: 100,
+    approved_amount: 100,
+    comments: "Approved",
+    status: "pending",
+    proofs: "proof2.png",
+    type: "marketing",
     date: new Date(),
   },
   {
@@ -64,18 +86,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "processing",
     proofs: "proof2.png",
-    date: new Date(),
-  },
-  {
-    id: "489e1d42",
-    store: "Shop B",
-    range_start: new Date("2026-04-10"),
-    range_end: new Date("2026-04-28"),
-    initial_amount: 125,
-    approved_amount: 125,
-    comments: "Approved",
-    status: "processing",
-    proofs: "proof2.png",
+    type: "maintenance",
     date: new Date(),
   },
   {
@@ -88,6 +99,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "received",
     proofs: "proof2.png",
+    type: "maintenance",
     date: new Date(),
   },
   {
@@ -100,6 +112,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "under review",
     proofs: "proof2.png",
+    type: "operations",
     date: new Date(),
   },
   {
@@ -112,6 +125,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "sent",
     proofs: "proof2.png",
+    type: "operations",
     date: new Date(),
   },
   {
@@ -124,6 +138,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "paid",
     proofs: "proof2.png",
+    type: "operations",
     date: new Date(),
   },
   {
@@ -136,6 +151,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "paid",
     proofs: "proof2.png",
+    type: "maintenance",
     date: new Date(),
   },
   {
@@ -148,6 +164,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "paid",
     proofs: "proof2.png",
+    type: "maintenance",
     date: new Date(),
   },
   {
@@ -160,6 +177,7 @@ export const paymentsData: Payment[] = [
     comments: "Approved",
     status: "paid",
     proofs: "proof2.png",
+    type: "maintenance",
     date: new Date(),
   },
 ];

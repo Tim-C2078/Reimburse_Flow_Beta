@@ -5,6 +5,14 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  FilePenLine,
+  Trash,
+  BanknoteArrowUp,
+  LoaderPinwheel,
+  TruckElectric,
+  CheckCheck,
+} from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -16,7 +24,7 @@ export type Payment = {
   range_end: Date;
   initial_amount: number;
   approved_amount: number;
-  comments: "Approved";
+  comments: "Approved" | string;
   status:
     | "pending"
     | "processing"
@@ -25,6 +33,12 @@ export type Payment = {
     | "sent"
     | "received";
   proofs: string;
+  type:
+    | "operations"
+    | "maintenance"
+    | "welfare"
+    | "marketing"
+    | "regulatory expense";
   date: Date;
 };
 
@@ -199,6 +213,20 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Types
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+  },
+  {
     accessorKey: "proofs",
     header: "Proof",
     cell: ({ row }) => {
@@ -240,6 +268,54 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const date = row.getValue("date") as Date;
       return new Date(date).toLocaleDateString();
+    },
+  },
+  {
+    id: "actions",
+    header: "Actions",
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <div className="flex gap-2">
+          <Button
+            onClick={() => console.log("Edit", user.id)}
+            className="cursor-pointer"
+          >
+            <FilePenLine />
+          </Button>
+          <Button
+            onClick={() => console.log("Delete", user.id)}
+            className="cursor-pointer"
+          >
+            <Trash />
+          </Button>
+          <Button
+            onClick={() => console.log("Paid", user.id)}
+            className="cursor-pointer bg-green-500"
+          >
+            <BanknoteArrowUp />
+          </Button>
+          <Button
+            onClick={() => console.log("Processing", user.id)}
+            className="cursor-pointer bg-blue-500"
+          >
+            <LoaderPinwheel />
+          </Button>
+          <Button
+            onClick={() => console.log("Sent", user.id)}
+            className="cursor-pointer bg-gray-500"
+          >
+            <TruckElectric />
+          </Button>
+          <Button
+            onClick={() => console.log("Received", user.id)}
+            className="cursor-pointer bg-red-500"
+          >
+            <CheckCheck />
+          </Button>
+        </div>
+      );
     },
   },
 ];
