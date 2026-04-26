@@ -8,8 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import chartredAnimation from "@/app/dashboard/users/Red Pulsing Dot.json";
 import chartgreenAnimation from "@/app/dashboard/users/Green Live Signal.json";
 import Lottie from "lottie-react";
-import { FilePenLine, Trash } from "lucide-react";
-import { ActionsCell, User } from "@/components/actionCell";
+import { ActionsCell } from "@/components/actionCell";
 
 export type Users = {
   id: string;

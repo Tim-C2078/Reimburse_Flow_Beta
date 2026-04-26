@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/rangeDatePicker";
 import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 
 const CreateUser = () => {
   const [show, setShow] = useState("hidden");
@@ -42,9 +43,9 @@ const CreateUser = () => {
       initialAmount: (form.initialAmount as HTMLInputElement).value,
       approvedAmount: (form.initialAmount as HTMLInputElement).value,
       type: (form.type as HTMLSelectElement).value,
-      comments: (form.comments as HTMLTextAreaElement)?.value,
-      dateFrom: date?.from,
-      dateTo: date?.to,
+      comments: (form.comments as HTMLTextAreaElement)?.value.toUpperCase(),
+      dateFrom: date?.from ? format(date.from, "dd/MM/yyyy") : null,
+      dateTo: date?.to ? format(date.to, "dd/MM/yyyy") : null,
     });
 
     // ✅ RESET FORM FIELDS
@@ -53,11 +54,14 @@ const CreateUser = () => {
     // ✅ RESET DATE PICKER
     setDate(undefined);
 
-    // (optional) reset conditional UI
+    // Reset conditional UI
     setShow("hidden");
 
     // ✅ RESET DATE PICKER
     setValue("");
+
+    // RESET COMMENT
+    setComments("Approved");
   }
 
   return (
@@ -72,6 +76,7 @@ const CreateUser = () => {
         <form className="mx-5" onSubmit={handleSubmit}>
           {/* STORE */}
           <label className="mr-21">Stores:</label>
+          <br />
           <select
             name="store"
             onChange={handleChange}
@@ -92,6 +97,7 @@ const CreateUser = () => {
 
           {/* AMOUNT */}
           <label className="mr-5.5">Initial Amount:</label>
+          <br />
           <input
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -106,6 +112,7 @@ const CreateUser = () => {
           {/* AMOUNT */}
           <div className="hidden">
             <label className="mr-5.5">Approved Amount:</label>
+            <br />
             <input
               value={value}
               onChange={(e) => setValue(e.target.value)}
@@ -130,6 +137,7 @@ const CreateUser = () => {
 
           {/* TYPE */}
           <label className="mr-26">Type:</label>
+          <br />
           <select
             name="type"
             onChange={handleChange}

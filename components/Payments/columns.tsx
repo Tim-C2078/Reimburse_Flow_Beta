@@ -5,14 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  FilePenLine,
-  Trash,
-  BanknoteArrowUp,
-  LoaderPinwheel,
-  TruckElectric,
-  CheckCheck,
-} from "lucide-react";
+import { ActionsCell } from "@/components/actionPettyCash";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -20,8 +13,8 @@ import {
 export type Payment = {
   id: string;
   store: string;
-  range_start: Date;
-  range_end: Date;
+  dateFrom: string;
+  dateTo: string;
   initial_amount: number;
   approved_amount: number;
   comments: "Approved" | string;
@@ -38,7 +31,7 @@ export type Payment = {
     | "maintenance"
     | "welfare"
     | "marketing"
-    | "regulatory expense";
+    | "regulatory expenses";
   date: Date;
 };
 
@@ -94,7 +87,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "range_start",
+    accessorKey: "dateFrom",
     header: ({ column }) => {
       return (
         <Button
@@ -107,12 +100,12 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = row.getValue("range_start") as Date;
-      return new Date(date).toLocaleDateString();
+      const date = row.getValue("dateFrom") as string;
+      return date;
     },
   },
   {
-    accessorKey: "range_end",
+    accessorKey: "dateTo",
     header: ({ column }) => {
       return (
         <Button
@@ -125,8 +118,8 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = row.getValue("range_end") as Date;
-      return new Date(date).toLocaleDateString();
+      const date = row.getValue("dateTo") as string;
+      return date;
     },
   },
   {
@@ -273,49 +266,6 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const user = row.original;
-
-      return (
-        <div className="flex gap-2">
-          <Button
-            onClick={() => console.log("Edit", user.id)}
-            className="cursor-pointer"
-          >
-            <FilePenLine />
-          </Button>
-          <Button
-            onClick={() => console.log("Delete", user.id)}
-            className="cursor-pointer"
-          >
-            <Trash />
-          </Button>
-          <Button
-            onClick={() => console.log("Paid", user.id)}
-            className="cursor-pointer bg-green-500"
-          >
-            <BanknoteArrowUp />
-          </Button>
-          <Button
-            onClick={() => console.log("Processing", user.id)}
-            className="cursor-pointer bg-blue-500"
-          >
-            <LoaderPinwheel />
-          </Button>
-          <Button
-            onClick={() => console.log("Sent", user.id)}
-            className="cursor-pointer bg-gray-500"
-          >
-            <TruckElectric />
-          </Button>
-          <Button
-            onClick={() => console.log("Received", user.id)}
-            className="cursor-pointer bg-red-500"
-          >
-            <CheckCheck />
-          </Button>
-        </div>
-      );
-    },
+    cell: ({ row }) => <ActionsCell payment={row.original} />,
   },
 ];
