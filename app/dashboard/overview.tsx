@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import Lottie from "lottie-react";
 import chartAnimation from "./Bar Chart.json";
+import Calendar from "@/components/monthly expenses/Calendar Lottie Animation.json";
 import {
   Carousel,
   CarouselContent,
@@ -14,6 +15,7 @@ import {
 import { columns } from "@/components/Payments/columns";
 import { paymentsData } from "@/components/Payments/data";
 import { DataTable } from "@/components/Payments/data-table";
+import { Banknote, Clock, Hourglass, ShieldEllipsis } from "lucide-react";
 
 const Dashboard = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -43,8 +45,9 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-4 gap-4 my-7 mx-4">
           {/* CARD 1 */}
           <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle>Total Petty Cash</CardTitle>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>Total Pending</CardTitle>
+              <Clock />
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between w-full">
@@ -60,14 +63,15 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-sm mt-2 text-muted-foreground">
-                No data available
+                Unpaid Petty Cash
               </p>
             </CardContent>
           </Card>
           {/* CARD 2 */}
           <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle>Total Pending</CardTitle>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>Total Processing</CardTitle>
+              <ShieldEllipsis />
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between w-full">
@@ -83,15 +87,17 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-sm mt-2 text-muted-foreground">
-                No data available
+                Pending With Finance
               </p>
             </CardContent>
           </Card>
           {/* CARD 3 */}
           <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle>Total Processing</CardTitle>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>Total Paid</CardTitle>
+              <Banknote />
             </CardHeader>
+
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
@@ -106,30 +112,31 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-sm mt-2 text-muted-foreground">
-                No data available
+                Paid Petty Cash
               </p>
             </CardContent>
           </Card>
           {/* CARD 4 */}
           <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle>Total Paid</CardTitle>
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>Average Duration</CardTitle>
+              <Hourglass />
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $5,000
+                  15 Days
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
-                    animationData={chartAnimation}
+                    animationData={Calendar}
                     loop
                     className="w-full h-full"
                   />
                 </div>
               </div>
-              <p className="text-sm mt-2 text-muted-foreground">
-                No data available
+              <p className="text-sm mt-2 text-green-600">
+                + 10% Improvement
               </p>
             </CardContent>
           </Card>

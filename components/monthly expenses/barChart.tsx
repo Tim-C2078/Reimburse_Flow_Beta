@@ -119,11 +119,23 @@ const MyChart = () => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="operations" fill="#3b82f6" /> {/* blue */}
-          <Bar dataKey="maintenance" fill="#10b981" /> {/* green */}
-          <Bar dataKey="welfare" fill="#f59e0b" /> {/* amber */}
-          <Bar dataKey="regulatory_expenses" fill="#8b5cf6" /> {/* purple */}
-          <Bar dataKey="marketing" fill="#ef4444" />
+          <Bar dataKey="operations" fill="#2563eb" radius={[4, 4, 0, 0]} />
+          {/* blue */}
+          <Bar
+            dataKey="maintenance"
+            fill="#0f766e"
+            radius={[4, 4, 0, 0]}
+          />{" "}
+          {/* green */}
+          <Bar dataKey="welfare" fill="#ca8a04" radius={[4, 4, 0, 0]} />{" "}
+          {/* amber */}
+          <Bar
+            dataKey="regulatory_expenses"
+            fill="#7c3aed"
+            radius={[4, 4, 0, 0]}
+          />{" "}
+          {/* purple */}
+          <Bar dataKey="marketing" fill="#dc2626" radius={[4, 4, 0, 0]} />
         </ReBarChart>
       </ResponsiveContainer>
     </div>
