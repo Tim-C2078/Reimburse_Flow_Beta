@@ -8,6 +8,8 @@ export type Payment = {
   comments: "Approved" | string;
   status:
     | "pending"
+    | "pending approval"
+    | "approved"
     | "processing"
     | "under review"
     | "paid"
@@ -71,7 +73,7 @@ export const paymentsData: Payment[] = [
     initial_amount: 100,
     approved_amount: 100,
     comments: "Approved",
-    status: "pending",
+    status: "pending approval",
     proofs: "proof2.png",
     type: "marketing",
     date: new Date(),
@@ -84,7 +86,7 @@ export const paymentsData: Payment[] = [
     initial_amount: 125,
     approved_amount: 125,
     comments: "Approved",
-    status: "received",
+    status: "approved",
     proofs: "proof2.png",
     type: "maintenance",
     date: new Date(),

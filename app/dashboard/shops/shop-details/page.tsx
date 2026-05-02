@@ -8,7 +8,6 @@ import { columns } from "@/components/Store_table/columns";
 import { paymentsData } from "@/components/Store_table/data";
 import { DataTable } from "@/components/Store_table/data-table";
 import {
-  Banknote,
   Clock,
   Landmark,
   ShieldEllipsis,

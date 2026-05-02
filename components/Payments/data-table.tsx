@@ -54,15 +54,21 @@ export function DataTable<TData, TValue>({
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   // ✅ FIX: default is TODAY active
-  const [filterMode, setFilterMode] = React.useState<"today" | "all" | "clear">(
-    "today",
-  );
+  const [filterMode, setFilterMode] = React.useState<
+    "today" | "all" | "clear" | "hidePaid"
+  >("today");
 
   const router = useRouter();
 
   const table = useReactTable({
     data,
     columns,
+    filterFns: {
+      hidePaid: (row, columnId) => {
+        const status = row.getValue(columnId) as string;
+        return status !== "paid";
+      },
+    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
@@ -85,18 +91,26 @@ export function DataTable<TData, TValue>({
 
   // ✅ FIX: apply external selected date (from dashboard)
   React.useEffect(() => {
-    if (selectedDate) {
-      table.getColumn("date")?.setFilterValue(selectedDate);
-      setFilterMode("all");
-    }
-  }, [selectedDate]);
-
-  // 🔥 FIX: APPLY "TODAY" ON FIRST LOAD
-  React.useEffect(() => {
     if (filterMode === "today") {
       table.getColumn("date")?.setFilterValue(new Date());
+      table.getColumn("status")?.setFilterValue(undefined);
     }
-  }, []);
+
+    if (filterMode === "all") {
+      table.getColumn("date")?.setFilterValue(undefined);
+      table.getColumn("status")?.setFilterValue(undefined);
+    }
+
+    if (filterMode === "hidePaid") {
+      table.getColumn("status")?.setFilterValue("hidePaid");
+    }
+
+    if (filterMode === "clear") {
+      table.getColumn("date")?.setFilterValue(undefined);
+      table.getColumn("status")?.setFilterValue(undefined);
+      setSelectedDate?.(null);
+    }
+  }, [filterMode]);
 
   return (
     <>
@@ -156,6 +170,14 @@ export function DataTable<TData, TValue>({
               }}
             >
               Clear Date
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "hidePaid"}
+              onCheckedChange={(checked) => {
+                if (checked) setFilterMode("hidePaid");
+              }}
+            >
+              Unpaid
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>

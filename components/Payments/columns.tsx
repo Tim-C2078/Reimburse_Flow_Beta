@@ -171,22 +171,42 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
+
+    // 🔥 REQUIRED FOR "HIDE PAID" FEATURE
+    filterFn: (row, columnId, filterValue) => {
+      const status = row.getValue(columnId) as string;
+
+      if (filterValue === "hidePaid") {
+        return status !== "paid";
+      }
+
+      if (!filterValue || filterValue === "all") {
+        return true;
+      }
+
+      return status === filterValue;
+    },
+
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       const label = status.toUpperCase();
 
       const color =
         status === "paid"
-          ? "bg-green-500 text-white"
-          : status === "pending"
-            ? "bg-yellow-500 text-white"
-            : status === "under review"
-              ? "bg-red-500 text-white"
-              : status === "received"
-                ? "bg-orange-500 text-white"
-                : status === "processing"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-500 text-white";
+          ? "bg-green-400 text-white"
+          : status === "pending approval"
+            ? "bg-pink-400 text-white"
+            : status === "approved"
+              ? "bg-purple-400 text-white"
+              : status === "pending"
+                ? "bg-yellow-400 text-white"
+                : status === "under review"
+                  ? "bg-red-400 text-white"
+                  : status === "received"
+                    ? "bg-orange-400 text-white"
+                    : status === "processing"
+                      ? "bg-blue-400 text-white"
+                      : "bg-gray-400 text-white";
 
       return <Badge className={color}>{label}</Badge>;
     },
@@ -225,7 +245,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       const proof = row.getValue("proofs") as string;
       return (
-        <a href={proof} target="_blank" className="text-blue-500 underline">
+        <a href={proof} target="_blank" className="text-blue-400 underline">
           View
         </a>
       );

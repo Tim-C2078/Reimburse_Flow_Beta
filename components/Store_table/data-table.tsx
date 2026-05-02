@@ -45,8 +45,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   stores,
-  selectedDate,
-  setSelectedDate,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -55,14 +53,21 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  // ✅ FIX: default is TODAY active
-  const [filterMode, setFilterMode] = React.useState<"today" | "all">("today");
+  const [filterMode, setFilterMode] = React.useState<
+    "today" | "all" | "hidePaid"
+  >("today");
 
   const router = useRouter();
 
   const table = useReactTable({
     data,
     columns,
+    filterFns: {
+      hidePaid: (row, columnId) => {
+        const status = row.getValue(columnId);
+        return status !== "paid";
+      },
+    },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onRowSelectionChange: setRowSelection,
@@ -83,20 +88,20 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // ✅ FIX: apply external selected date (from dashboard)
-  React.useEffect(() => {
-    if (selectedDate) {
-      table.getColumn("date")?.setFilterValue(selectedDate);
-      setFilterMode("all");
-    }
-  }, [selectedDate]);
-
-  // 🔥 FIX: APPLY "TODAY" ON FIRST LOAD
   React.useEffect(() => {
     if (filterMode === "today") {
       table.getColumn("date")?.setFilterValue(new Date());
     }
-  }, []);
+
+    if (filterMode === "all") {
+      table.getColumn("date")?.setFilterValue(undefined);
+      table.getColumn("status")?.setFilterValue(undefined);
+    }
+
+    if (filterMode === "hidePaid") {
+      table.getColumn("status")?.setFilterValue("hidePaid");
+    }
+  }, [filterMode]);
 
   return (
     <>
@@ -112,7 +117,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className="buttonEffects bg-black text-white hover:text-black hover:bg-white cursor-pointer"
+              className="bg-black text-white hover:bg-white hover:text-black cursor-pointer"
               variant="outline"
             >
               Filter
@@ -120,7 +125,6 @@ export function DataTable<TData, TValue>({
           </DropdownMenuTrigger>
 
           <DropdownMenuContent>
-            {/* TODAY */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "today"}
               onCheckedChange={(checked) => {
@@ -133,7 +137,6 @@ export function DataTable<TData, TValue>({
               Today
             </DropdownMenuCheckboxItem>
 
-            {/* SHOW ALL */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "all"}
               onCheckedChange={(checked) => {
@@ -145,14 +148,23 @@ export function DataTable<TData, TValue>({
             >
               Show All
             </DropdownMenuCheckboxItem>
+            {/* HIDE PAID */}
+            <DropdownMenuCheckboxItem
+              checked={filterMode === "hidePaid"}
+              onCheckedChange={(checked) => {
+                if (checked) setFilterMode("hidePaid");
+              }}
+            >
+              Unpaid
+            </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Button
           title="create new petty cash"
           onClick={() =>
             router.push(`/dashboard/shops/create-new?store=${stores}`)
           }
-          className="cursor-pointer"
         >
           <FilePlus />
         </Button>
@@ -179,7 +191,31 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="bg-white shadow-sm">
+                <TableRow
+                  key={row.id}
+                  className="bg-white shadow-sm cursor-pointer"
+                  onClick={() => row.toggleSelected()}
+                  onDoubleClick={() => {
+                    const payment = row.original as any;
+
+                    const url = new URLSearchParams({
+                      id: payment.id,
+                      store: payment.store,
+                      dateFrom: payment.dateFrom,
+                      dateTo: payment.dateTo,
+                      initialAmount: String(payment.initial_amount),
+                      approvedAmount: String(payment.approved_amount),
+                      comments: payment.comments,
+                      status: payment.status,
+                      type: payment.type,
+                      date: payment.date.toISOString(),
+                    });
+
+                    router.push(
+                      `/dashboard/shops/edit-pettyCash?${url.toString()}`,
+                    );
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center py-3">
                       {flexRender(

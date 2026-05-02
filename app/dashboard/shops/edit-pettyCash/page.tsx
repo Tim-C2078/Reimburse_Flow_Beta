@@ -152,7 +152,7 @@ const EditUser = () => {
       {/* FORM (UNCHANGED) */}
       <div>
         <h1 className="text-2xl font-semibold mx-1 my-5">
-          Form View Information
+          View Form Information
         </h1>
       </div>
       <form className="mx-5 pt-7" onSubmit={handleSubmit}>
