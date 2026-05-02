@@ -193,20 +193,20 @@ export const columns: ColumnDef<Payment>[] = [
 
       const color =
         status === "paid"
-          ? "bg-green-400 text-white"
-          : status === "pending approval"
-            ? "bg-pink-400 text-white"
-            : status === "approved"
-              ? "bg-purple-400 text-white"
+          ? "bg-green-600 text-white"
+          : status === "approved"
+            ? "bg-emerald-600 text-white"
+            : status === "pending approval"
+              ? "bg-amber-500 text-white"
               : status === "pending"
-                ? "bg-yellow-400 text-white"
+                ? "bg-yellow-500 text-black"
                 : status === "under review"
-                  ? "bg-red-400 text-white"
+                  ? "bg-slate-500 text-white"
                   : status === "received"
-                    ? "bg-orange-400 text-white"
+                    ? "bg-blue-600 text-white"
                     : status === "processing"
-                      ? "bg-blue-400 text-white"
-                      : "bg-gray-400 text-white";
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-500 text-white";
 
       return <Badge className={color}>{label}</Badge>;
     },

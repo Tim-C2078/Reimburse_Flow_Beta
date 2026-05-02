@@ -36,9 +36,9 @@ const Dashboard = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold mx-4">{store}</h1>
           {isOverLimit && (
-            <div className="text-white font-semibold flex gap-2 items-center">
-              <TriangleAlert className="text-red-400" />
-              <div className="text-red-400">Over 60% of budget pending</div>
+            <div className="text-white font-semibold flex gap-2 items-center pr-5">
+              <TriangleAlert className="text-red-600" />
+              <div className="text-red-600">Over 60% of budget pending</div>
             </div>
           )}
         </div>

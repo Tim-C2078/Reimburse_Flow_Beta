@@ -95,7 +95,7 @@ const Stores = () => {
                   `/dashboard/shops/shop-details?id=${item.id}&store=${item.store}&budget=${item.total_budget}&pending=${item.total_pending}&processing=${item.total_processing}&paid=${item.total_paid}`,
                 )
               }
-              className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 border-white hover:border-red-400"
+              className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 border-white hover:border-red-600"
               key={item.id}
             >
               <CardHeader className="flex items-center justify-between pb-5">
@@ -120,8 +120,8 @@ const Stores = () => {
                 </h2>
                 {isOverLimit && (
                   <div className="text-white font-semibold flex gap-2 items-center">
-                    <TriangleAlert className="text-red-400" />
-                    <div className="text-red-400">
+                    <TriangleAlert className="text-red-600" />
+                    <div className="text-red-600">
                       Over 60% of budget pending
                     </div>
                   </div>

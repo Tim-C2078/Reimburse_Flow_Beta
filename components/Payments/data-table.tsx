@@ -211,7 +211,11 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="bg-white shadow-sm">
+                <TableRow
+                  key={row.id}
+                  className="bg-white shadow-sm cursor-pointer"
+                  onClick={() => row.toggleSelected()}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center py-3">
                       {flexRender(
