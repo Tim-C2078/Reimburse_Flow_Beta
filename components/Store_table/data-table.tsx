@@ -148,6 +148,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
         <Button
+          title="create new petty cash"
           onClick={() =>
             router.push(`/dashboard/shops/create-new?store=${stores}`)
           }

@@ -63,6 +63,14 @@ const Stores = () => {
       total_processing: 1500,
       total_paid: 2500,
     },
+    {
+      id: "KGH008",
+      store: "KFC EAST LEGON HILLS",
+      total_budget: 5000,
+      total_pending: 3500,
+      total_processing: 1500,
+      total_paid: 2500,
+    },
   ];
 
   const router = useRouter();
@@ -87,13 +95,15 @@ const Stores = () => {
                   `/dashboard/shops/shop-details?id=${item.id}&store=${item.store}&budget=${item.total_budget}&pending=${item.total_pending}&processing=${item.total_processing}&paid=${item.total_paid}`,
                 )
               }
-              className="cursor-pointer shadow-md flex flex-col h-75 bg-[linear-gradient(190deg,_white_10%,_black_100%)] border-1 border-white hover:border-black"
+              className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 border-white hover:border-red-400"
               key={item.id}
             >
               <CardHeader className="flex items-center justify-between pb-10">
-                <CardTitle>{item.store}</CardTitle>
+                <CardTitle className="pt-4 font-bold text-lg">
+                  {item.store}
+                </CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col gap-7">
+              <CardContent className="flex flex-col gap-5">
                 <h2 className="text-white font-semibold">
                   Total Budget: $ {item.total_budget}
                 </h2>

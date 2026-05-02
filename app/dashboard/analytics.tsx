@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import BarChart from "@/components/monthly expenses/barChart";
 import PieChart from "@/components/monthly expenses/pieChart";
-import LineChart from "@/components/monthly expenses/lineChart";
 
 const AnalyticsPage = () => {
   return (

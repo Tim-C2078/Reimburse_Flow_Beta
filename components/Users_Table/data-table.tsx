@@ -243,6 +243,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
         <Button
+          title="create user"
           onClick={() => {
             router.push("/dashboard/users/create-new");
           }}

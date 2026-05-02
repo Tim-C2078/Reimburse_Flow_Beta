@@ -15,7 +15,13 @@ import {
 import { columns } from "@/components/Payments/columns";
 import { paymentsData } from "@/components/Payments/data";
 import { DataTable } from "@/components/Payments/data-table";
-import { Banknote, Clock, Hourglass, ShieldEllipsis } from "lucide-react";
+import {
+  Banknote,
+  Clock,
+  Hourglass,
+  ShieldEllipsis,
+  ScanEye,
+} from "lucide-react";
 
 const Dashboard = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
@@ -94,8 +100,8 @@ const Dashboard = () => {
           {/* CARD 3 */}
           <Card className="shadow-md">
             <CardHeader className="flex items-center justify-between">
-              <CardTitle>Total Paid</CardTitle>
-              <Banknote />
+              <CardTitle>Total Under Review</CardTitle>
+              <ScanEye />
             </CardHeader>
 
             <CardContent>
@@ -112,7 +118,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-sm mt-2 text-muted-foreground">
-                Paid Petty Cash
+                Pending Approval
               </p>
             </CardContent>
           </Card>

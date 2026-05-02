@@ -23,10 +23,11 @@ const Dashboard = () => {
 
   const id = searchParams.get("id");
   const store = searchParams.get("store");
-  const budget = searchParams.get("budget");
-  const pending = searchParams.get("pending");
-  const processing = searchParams.get("processing");
-  const paid = searchParams.get("paid");
+
+  const budget = Number(searchParams.get("budget") || 0);
+  const pending = Number(searchParams.get("pending") || 0);
+  const processing = Number(searchParams.get("processing") || 0);
+  const paid = Number(searchParams.get("paid") || 0);
 
   const isOverLimit = pending > budget * 0.6;
 
@@ -46,7 +47,7 @@ const Dashboard = () => {
 
         <div className="grid lg:grid-cols-4 gap-4 my-7 mx-4">
           {/* CARD 1 */}
-          <Card className="shadow-md">
+          <Card className="shadow-md ">
             <CardHeader className="flex items-center justify-between">
               <CardTitle>Total Budget</CardTitle>
               <Landmark />

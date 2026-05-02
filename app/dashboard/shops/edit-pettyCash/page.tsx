@@ -47,7 +47,7 @@ const EditUser = () => {
     <>
       <div>
         <h1 className="text-2xl font-semibold mx-1 my-5">
-          Change Payment Information
+          View Payment Information
         </h1>
       </div>
 

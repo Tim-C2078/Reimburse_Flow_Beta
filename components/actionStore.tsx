@@ -3,7 +3,13 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
-import { FilePenLine, Trash, TruckElectric } from "lucide-react";
+import { FilePenLine, Trash, Download } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Payment = {
   id: string;
@@ -40,17 +46,41 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
   };
 
   return (
-    <div className="flex gap-2">
-      <Button onClick={handleEdit} className="cursor-pointer">
-        <FilePenLine />
-      </Button>
-      <Button onClick={() => console.log("Delete", payment.id)}>
-        <Trash />
-      </Button>
+    <TooltipProvider>
+      <div className="flex gap-2">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={handleEdit} className="cursor-pointer">
+              <FilePenLine />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Edit</TooltipContent>
+        </Tooltip>
 
-      <Button className="bg-gray-500">
-        <TruckElectric />
-      </Button>
-    </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="cursor-pointer"
+              onClick={() => console.log("Delete", payment.id)}
+            >
+              <Trash />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Delete</TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="bg-gray-400 cursor-pointer"
+              onClick={() => console.log("Download", payment.id)}
+            >
+              <Download />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Download</TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
   );
 };

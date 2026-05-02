@@ -160,6 +160,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
         <Button
+          title="create new petty cash"
           onClick={() => router.push(`/dashboard/create-new`)}
           className="cursor-pointer"
         >

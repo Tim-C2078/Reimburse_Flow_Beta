@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import {
   FilePenLine,
   Trash,
@@ -11,6 +11,13 @@ import {
   TruckElectric,
   CheckCheck,
 } from "lucide-react";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Payment = {
   id: string;
@@ -35,8 +42,8 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
     const url = new URLSearchParams({
       id: payment.id,
       store: payment.store,
-      dateFrom: format(payment.dateFrom, "dd/MM/yyyy"),
-      dateTo: format(payment.dateTo, "dd/MM/yyyy"),
+      dateFrom: format(parseISO(payment.dateFrom), "dd/MM/yyyy"),
+      dateTo: format(parseISO(payment.dateTo), "dd/MM/yyyy"),
       initialAmount: String(payment.initial_amount),
       approvedAmount: String(payment.approved_amount),
       comments: payment.comments,
@@ -47,30 +54,71 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
   };
 
   return (
-    <div className="flex gap-2">
-      <Button onClick={handleEdit} className="cursor-pointer">
-        <FilePenLine />
-      </Button>
+    <TooltipProvider>
+      <div className="flex gap-2">
+        {/* EDIT */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button onClick={handleEdit} className="cursor-pointer">
+              <FilePenLine />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Edit Payment</TooltipContent>
+        </Tooltip>
 
-      <Button onClick={() => console.log("Delete", payment.id)}>
-        <Trash />
-      </Button>
+        {/* DELETE */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              onClick={() => console.log("Delete", payment.id)}
+              className="cursor-pointer"
+            >
+              <Trash />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Delete Payment</TooltipContent>
+        </Tooltip>
 
-      <Button className="bg-green-500">
-        <BanknoteArrowUp />
-      </Button>
+        {/* PAID */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="bg-green-500 cursor-pointer">
+              <BanknoteArrowUp />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Mark as Paid</TooltipContent>
+        </Tooltip>
 
-      <Button className="bg-blue-500">
-        <LoaderPinwheel />
-      </Button>
+        {/* PROCESSING */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="bg-blue-500 cursor-pointer">
+              <LoaderPinwheel />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Processing</TooltipContent>
+        </Tooltip>
 
-      <Button className="bg-gray-500">
-        <TruckElectric />
-      </Button>
+        {/* SENT */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="bg-gray-500 cursor-pointer">
+              <TruckElectric />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Sent</TooltipContent>
+        </Tooltip>
 
-      <Button className="bg-red-500">
-        <CheckCheck />
-      </Button>
-    </div>
+        {/* RECEIVED */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="bg-red-500 cursor-pointer">
+              <CheckCheck />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Received</TooltipContent>
+        </Tooltip>
+      </div>
+    </TooltipProvider>
   );
 };
