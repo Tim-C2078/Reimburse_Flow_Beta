@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, Store } from "lucide-react";
 
 const Stores = () => {
   const data = [
@@ -98,8 +98,13 @@ const Stores = () => {
               className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 border-white hover:border-red-400"
               key={item.id}
             >
-              <CardHeader className="flex items-center justify-between pb-10">
+              <CardHeader className="flex items-center justify-between pb-5">
                 <CardTitle className="pt-4 font-bold text-lg">
+                  <div className="flex items-center gap-3">
+                    <Store className="text-black" />
+                    {item.id}
+                  </div>
+
                   {item.store}
                 </CardTitle>
               </CardHeader>
