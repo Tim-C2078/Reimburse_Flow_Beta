@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { LogOut, LogIn } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -47,7 +48,7 @@ export default function Home() {
               onClick={handleClick}
               variant="outline"
             >
-              Login
+              <LogIn /> Login
             </Button>
           ) : (
             <Button

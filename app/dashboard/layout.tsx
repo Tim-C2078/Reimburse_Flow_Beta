@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -88,7 +89,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Avatar>
 
           <Link href="/">
-            <div className="buttonEffects shadow-2xl rounded-2xl py-5 px-9 h-8 bg-white text-black hover:bg-black hover:text-white flex justify-center items-center cursor-pointer">
+            <div className="flex gap-3 buttonEffects shadow-2xl rounded-2xl py-5 px-9 h-8 bg-white text-black hover:bg-black hover:text-white flex justify-center items-center cursor-pointer">
+              <LogOut />
               Logout
             </div>
           </Link>

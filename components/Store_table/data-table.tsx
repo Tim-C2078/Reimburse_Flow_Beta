@@ -36,6 +36,7 @@ import { FilePlus } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  stores: string | null;
   selectedDate?: Date | null;
   setSelectedDate?: React.Dispatch<React.SetStateAction<Date | null>>;
 }
@@ -43,6 +44,7 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
+  stores,
   selectedDate,
   setSelectedDate,
 }: DataTableProps<TData, TValue>) {
@@ -54,9 +56,7 @@ export function DataTable<TData, TValue>({
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   // ✅ FIX: default is TODAY active
-  const [filterMode, setFilterMode] = React.useState<"today" | "all" | "clear">(
-    "today",
-  );
+  const [filterMode, setFilterMode] = React.useState<"today" | "all">("today");
 
   const router = useRouter();
 
@@ -145,22 +145,12 @@ export function DataTable<TData, TValue>({
             >
               Show All
             </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={filterMode === "clear"}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFilterMode("clear");
-                  table.getColumn("date")?.setFilterValue(undefined);
-                  setSelectedDate?.(null);
-                }
-              }}
-            >
-              Clear Date
-            </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <Button
-          onClick={() => router.push(`/dashboard/create-new`)}
+          onClick={() =>
+            router.push(`/dashboard/shops/create-new?store=${stores}`)
+          }
           className="cursor-pointer"
         >
           <FilePlus />

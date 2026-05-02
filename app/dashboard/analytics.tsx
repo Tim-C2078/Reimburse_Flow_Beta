@@ -122,7 +122,7 @@ const AnalyticsPage = () => {
               </div>
 
               <p className="text-sm mt-2 text-red-600">
-                - 10% Improvement
+                - 10% Last Month vs This Month
               </p>
             </CardContent>
           </Card>

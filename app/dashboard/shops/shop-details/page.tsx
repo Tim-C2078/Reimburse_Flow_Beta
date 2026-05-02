@@ -3,47 +3,73 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import Lottie from "lottie-react";
-import chartAnimation from "./Bar Chart.json";
-import Calendar from "@/components/monthly expenses/Calendar Lottie Animation.json";
+import chartAnimation from "@/app/dashboard/Bar Chart.json";
+import { columns } from "@/components/Store_table/columns";
+import { paymentsData } from "@/components/Store_table/data";
+import { DataTable } from "@/components/Store_table/data-table";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { columns } from "@/components/Payments/columns";
-import { paymentsData } from "@/components/Payments/data";
-import { DataTable } from "@/components/Payments/data-table";
-import { Banknote, Clock, Hourglass, ShieldEllipsis } from "lucide-react";
+  Banknote,
+  Clock,
+  Landmark,
+  ShieldEllipsis,
+  TriangleAlert,
+  ScanEye,
+} from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 const Dashboard = () => {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+  const searchParams = useSearchParams();
 
-  const dates = Array.from({ length: 7 }).map((_, index) => {
-    const date = new Date();
-    date.setDate(date.getDate() - 2 + index);
-    return date;
-  });
+  const id = searchParams.get("id");
+  const store = searchParams.get("store");
+  const budget = searchParams.get("budget");
+  const pending = searchParams.get("pending");
+  const processing = searchParams.get("processing");
+  const paid = searchParams.get("paid");
 
-  const formatDate = (date: Date) => ({
-    dayName: date.toLocaleDateString("en-US", { weekday: "long" }),
-    month: date.toLocaleString("en-US", { month: "long" }),
-    day: date.getDate(),
-    year: date.getFullYear(),
-  });
+  const isOverLimit = pending > budget * 0.6;
 
   return (
     <>
       {/* HEADER */}
       <div className="mb-5">
-        <h1 className="text-2xl font-semibold mx-4">Overview</h1>
-        <p className="text-sm text-muted-foreground mt-2 mx-4">
-          This section provides a comprehensive overview of all store petty cash
-          data and their respective statuses.
-        </p>
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mx-4">{store}</h1>
+          {isOverLimit && (
+            <div className="text-white font-semibold flex gap-2 items-center">
+              <TriangleAlert className="text-red-400" />
+              <div className="text-red-400">Over 60% of budget pending</div>
+            </div>
+          )}
+        </div>
+
         <div className="grid lg:grid-cols-4 gap-4 my-7 mx-4">
           {/* CARD 1 */}
+          <Card className="shadow-md">
+            <CardHeader className="flex items-center justify-between">
+              <CardTitle>Total Budget</CardTitle>
+              <Landmark />
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between w-full">
+                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
+                  $ {budget}
+                </h2>
+                <div className="w-16 h-16 flex-shrink-0">
+                  <Lottie
+                    animationData={chartAnimation}
+                    loop
+                    className="w-full h-full"
+                  />
+                </div>
+              </div>
+              <p className="text-sm mt-2 text-muted-foreground">
+                Total Petty Cash
+              </p>
+            </CardContent>
+          </Card>
+          {/* CARD 2 */}
           <Card className="shadow-md">
             <CardHeader className="flex items-center justify-between">
               <CardTitle>Total Pending</CardTitle>
@@ -52,7 +78,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $9,00,000
+                  $ {pending}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -67,16 +93,17 @@ const Dashboard = () => {
               </p>
             </CardContent>
           </Card>
-          {/* CARD 2 */}
+          {/* CARD 3 */}
           <Card className="shadow-md">
             <CardHeader className="flex items-center justify-between">
               <CardTitle>Total Processing</CardTitle>
               <ShieldEllipsis />
             </CardHeader>
+
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $50,000
+                  $ {processing}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -91,17 +118,17 @@ const Dashboard = () => {
               </p>
             </CardContent>
           </Card>
-          {/* CARD 3 */}
+          {/* CARD 4 */}
           <Card className="shadow-md">
             <CardHeader className="flex items-center justify-between">
-              <CardTitle>Total Paid</CardTitle>
-              <Banknote />
+              <CardTitle>Total Under Review</CardTitle>
+              <ScanEye />
             </CardHeader>
 
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $600
+                  $ {paid}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -112,70 +139,11 @@ const Dashboard = () => {
                 </div>
               </div>
               <p className="text-sm mt-2 text-muted-foreground">
-                Paid Petty Cash
-              </p>
-            </CardContent>
-          </Card>
-          {/* CARD 4 */}
-          <Card className="shadow-md">
-            <CardHeader className="flex items-center justify-between">
-              <CardTitle>Average Duration</CardTitle>
-              <Hourglass />
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between w-full">
-                <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  15 Days
-                </h2>
-                <div className="w-16 h-16 flex-shrink-0">
-                  <Lottie
-                    animationData={Calendar}
-                    loop
-                    className="w-full h-full"
-                  />
-                </div>
-              </div>
-              <p className="text-sm mt-2 text-green-600">
-                + 10% Last Month vs This Month
+                Pending Approval
               </p>
             </CardContent>
           </Card>
         </div>
-      </div>
-
-      {/* DATE CAROUSEL */}
-      <div className="flex justify-center mx-12 my-5">
-        <Carousel className="w-full">
-          <CarouselContent>
-            {dates.map((date, index) => {
-              const { dayName, month, day, year } = formatDate(date);
-
-              return (
-                <CarouselItem
-                  key={index}
-                  className="flex justify-center lg:basis-1/5"
-                >
-                  <div
-                    onClick={() => setSelectedDate(date)}
-                    className={`p-5 rounded-lg cursor-pointer flex flex-col items-center
-                      ${
-                        selectedDate?.toDateString() === date.toDateString()
-                          ? "bg-primary text-white"
-                          : "hover:bg-muted"
-                      }`}
-                  >
-                    <div className="text-sm">{dayName}</div>
-                    <div className="font-semibold">
-                      {day} {month} {year}
-                    </div>
-                  </div>
-                </CarouselItem>
-              );
-            })}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
       </div>
 
       {/* TABLE */}
@@ -183,6 +151,7 @@ const Dashboard = () => {
         <DataTable
           columns={columns}
           data={paymentsData}
+          stores={store}
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
