@@ -19,6 +19,14 @@ type Payment = {
   initial_amount: number;
   approved_amount: number;
   comments: "Approved" | string;
+  date: Date;
+  status:
+    | "pending"
+    | "processing"
+    | "under review"
+    | "paid"
+    | "sent"
+    | "received";
   type:
     | "operations"
     | "maintenance"
@@ -39,7 +47,9 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
       initialAmount: String(payment.initial_amount),
       approvedAmount: String(payment.approved_amount),
       comments: payment.comments,
+      status: payment.status,
       type: payment.type,
+      date: payment.date.toISOString(),
     });
 
     router.push(`/dashboard/shops/edit-pettyCash?${url.toString()}`);

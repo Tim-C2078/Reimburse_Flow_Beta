@@ -23,7 +23,6 @@ const Dashboard = () => {
 
   const id = searchParams.get("id");
   const store = searchParams.get("store");
-
   const budget = Number(searchParams.get("budget") || 0);
   const pending = Number(searchParams.get("pending") || 0);
   const processing = Number(searchParams.get("processing") || 0);
