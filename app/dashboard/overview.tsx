@@ -58,7 +58,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $9,00,000
+                  $900,000.00
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie

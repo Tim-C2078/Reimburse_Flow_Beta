@@ -137,7 +137,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
     cell: ({ row }) => {
       const amount = row.getValue("initial_amount") as number;
-      return `₵${amount}`;
+      return `₵ ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
     },
   },
   {
@@ -155,7 +155,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
     cell: ({ row }) => {
       const amount = row.getValue("approved_amount") as number;
-      return `₵${amount}`;
+      return `₵ ${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
     },
   },
   {
@@ -199,7 +199,7 @@ export const columns: ColumnDef<Payment>[] = [
             : status === "pending approval"
               ? "bg-amber-500 text-white"
               : status === "pending"
-                ? "bg-yellow-500 text-black"
+                ? "bg-yellow-500 text-white"
                 : status === "under review"
                   ? "bg-slate-500 text-white"
                   : status === "received"
@@ -208,7 +208,7 @@ export const columns: ColumnDef<Payment>[] = [
                       ? "bg-indigo-600 text-white"
                       : "bg-gray-500 text-white";
 
-      return <Badge className={color}>{label}</Badge>;
+      return <Badge className={`rounded-md w-33 h-8 ${color}`}>{label}</Badge>;
     },
   },
   {

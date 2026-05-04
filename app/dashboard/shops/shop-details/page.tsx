@@ -53,7 +53,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {budget}
+                  $ {budget.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -77,7 +77,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {pending}
+                  $ {pending.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -102,7 +102,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {processing}
+                  $ {processing.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -127,7 +127,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {paid}
+                  $ {paid.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie

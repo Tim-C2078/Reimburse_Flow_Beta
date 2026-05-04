@@ -95,7 +95,7 @@ const Stores = () => {
                   `/dashboard/shops/shop-details?id=${item.id}&store=${item.store}&budget=${item.total_budget}&pending=${item.total_pending}&processing=${item.total_processing}&paid=${item.total_paid}`,
                 )
               }
-              className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 border-black hover:border-red-600"
+              className="transition-transform duration-300 hover:-translate-y-2 cursor-pointer shadow-xl flex flex-col h-75 bg-[linear-gradient(135deg,_#fafafa_0%,_#d1d5db_50%,_#111827_100%)] border-1 hover:border-gray-400"
               key={item.id}
             >
               <CardHeader className="flex items-center justify-between pb-5">
@@ -110,13 +110,22 @@ const Stores = () => {
               </CardHeader>
               <CardContent className="flex flex-col gap-5">
                 <h2 className="text-black font-semibold">
-                  Total Budget: $ {item.total_budget}
+                  Total Budget: ${" "}
+                  {item.total_budget.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 <h2 className="text-black font-semibold">
-                  Total Pending: $ {item.total_pending}
+                  Total Pending: ${" "}
+                  {item.total_pending.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 <h2 className="text-black font-semibold">
-                  Total Processing: $ {item.total_processing}
+                  Total Processing: ${" "}
+                  {item.total_processing.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 {isOverLimit && (
                   <div className="text-black font-semibold flex gap-2 items-center">
