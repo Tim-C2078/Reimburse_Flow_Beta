@@ -33,30 +33,13 @@ import {
 
 import { FilePlus } from "lucide-react";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  selectedDate?: Date | null;
-  setSelectedDate?: React.Dispatch<React.SetStateAction<Date | null>>;
-}
-
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  selectedDate,
-  setSelectedDate,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
+export function DataTable({ columns, data, selectedDate, setSelectedDate }) {
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  // ✅ FIX: default is TODAY active
-  const [filterMode, setFilterMode] = React.useState<
-    "today" | "all" | "clear" | "hidePaid"
-  >("today");
+  const [filterMode, setFilterMode] = React.useState("today");
 
   const router = useRouter();
 
@@ -65,7 +48,7 @@ export function DataTable<TData, TValue>({
     columns,
     filterFns: {
       hidePaid: (row, columnId) => {
-        const status = row.getValue(columnId) as string;
+        const status = row.getValue(columnId);
         return status !== "paid";
       },
     },
@@ -89,16 +72,13 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // ✅ FIX: apply external selected date (from dashboard)
   React.useEffect(() => {
     if (filterMode === "today") {
       table.getColumn("date")?.setFilterValue(new Date());
-      table.getColumn("status")?.setFilterValue(undefined);
     }
 
     if (filterMode === "all") {
       table.getColumn("date")?.setFilterValue(undefined);
-      table.getColumn("status")?.setFilterValue(undefined);
     }
 
     if (filterMode === "hidePaid") {
@@ -120,67 +100,52 @@ export function DataTable<TData, TValue>({
           placeholder="Filter entire table..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className="max-w-sm shadow-md"
+          className="max-w-sm shadow-md bg-white text-black dark:bg-gray-900 dark:text-white"
         />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className="buttonEffects bg-black text-white hover:text-black hover:bg-white cursor-pointer"
+              className="bg-black text-white hover:bg-white hover:text-black dark:bg-gray-200 dark:text-black dark:hover:bg-white dark:hover:text-black cursor-pointer"
               variant="outline"
             >
               Filter
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
-            {/* TODAY */}
+          <DropdownMenuContent className="bg-white text-black dark:bg-gray-900 dark:text-white">
             <DropdownMenuCheckboxItem
               checked={filterMode === "today"}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFilterMode("today");
-                  table.getColumn("date")?.setFilterValue(new Date());
-                }
-              }}
+              onCheckedChange={(checked) => checked && setFilterMode("today")}
             >
               Today
             </DropdownMenuCheckboxItem>
 
-            {/* SHOW ALL */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "all"}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFilterMode("all");
-                  table.getColumn("date")?.setFilterValue(undefined);
-                }
-              }}
+              onCheckedChange={(checked) => checked && setFilterMode("all")}
             >
               Show All
             </DropdownMenuCheckboxItem>
+
             <DropdownMenuCheckboxItem
               checked={filterMode === "clear"}
-              onCheckedChange={(checked) => {
-                if (checked) {
-                  setFilterMode("clear");
-                  table.getColumn("date")?.setFilterValue(undefined);
-                  setSelectedDate?.(null);
-                }
-              }}
+              onCheckedChange={(checked) => checked && setFilterMode("clear")}
             >
               Clear Date
             </DropdownMenuCheckboxItem>
+
             <DropdownMenuCheckboxItem
               checked={filterMode === "hidePaid"}
-              onCheckedChange={(checked) => {
-                if (checked) setFilterMode("hidePaid");
-              }}
+              onCheckedChange={(checked) =>
+                checked && setFilterMode("hidePaid")
+              }
             >
               Unpaid
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Button
           title="create new petty cash"
           onClick={() => router.push(`/dashboard/create-new`)}
@@ -191,13 +156,16 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* TABLE */}
-      <div className="rounded-md border">
+      <div className="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950">
         <Table className="border-separate border-spacing-y-2">
-          <TableHeader className="bg-muted">
+          <TableHeader className="bg-gray-100 dark:bg-gray-800">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-center">
+                  <TableHead
+                    key={header.id}
+                    className="text-center text-black dark:text-white"
+                  >
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
@@ -213,7 +181,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="bg-white shadow-sm cursor-pointer"
+                  className="bg-white text-black dark:bg-gray-900 dark:text-white shadow-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
                   onClick={() => row.toggleSelected()}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -230,7 +198,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="text-center py-10"
+                  className="text-center py-10 text-gray-500 dark:text-gray-400"
                 >
                   No results.
                 </TableCell>
@@ -245,6 +213,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="dark:text-white dark:border-gray-600"
           >
             Previous
           </Button>
@@ -253,6 +222,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="dark:text-white dark:border-gray-600"
           >
             Next
           </Button>

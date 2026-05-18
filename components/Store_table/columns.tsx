@@ -193,20 +193,20 @@ export const columns: ColumnDef<Payment>[] = [
 
       const color =
         status === "paid"
-          ? "bg-green-600 text-white"
+          ? "bg-slate-400 text-white"
           : status === "approved"
-            ? "bg-emerald-600 text-white"
+            ? "bg-slate-400 text-white"
             : status === "pending approval"
-              ? "bg-amber-500 text-white"
+              ? "bg-slate-400 text-white"
               : status === "pending"
-                ? "bg-yellow-500 text-white"
+                ? "bg-slate-400 text-white"
                 : status === "under review"
-                  ? "bg-slate-500 text-white"
+                  ? "bg-slate-400 text-white"
                   : status === "received"
-                    ? "bg-blue-600 text-white"
+                    ? "bg-slate-400 text-white"
                     : status === "processing"
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-500 text-white";
+                      ? "bg-slate-400 text-white"
+                      : "bg-slate-400 text-white";
 
       return <Badge className={`rounded-md w-33 h-8 ${color}`}>{label}</Badge>;
     },
@@ -259,7 +259,7 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Date
+          Create At
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );

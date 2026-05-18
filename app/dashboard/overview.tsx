@@ -82,7 +82,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $50,000
+                  $50,000.00
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -107,7 +107,7 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $600
+                  $600.00
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie

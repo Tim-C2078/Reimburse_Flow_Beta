@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Poppins } from "next/font/google";
+import ToggleDarkandLight from "@/components/ui/toggleDarkandLight";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,27 +15,16 @@ const poppins = Poppins({
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
   const navItems = [
-    {
-      href: "/dashboard",
-      label: "Dashboard",
-      icon: "/dashboard.png",
-    },
+    { href: "/dashboard", label: "Dashboard", icon: "/dashboard.png" },
     {
       href: "/dashboard/generate-report",
       label: "Generate Report",
       icon: "/PettyCash.png",
     },
-    {
-      href: "/dashboard/users",
-      label: "User Management",
-      icon: "/users.png",
-    },
-    {
-      href: "/dashboard/shops",
-      label: "Stores",
-      icon: "/user.png",
-    },
+    { href: "/dashboard/users", label: "User Management", icon: "/users.png" },
+    { href: "/dashboard/shops", label: "Stores", icon: "/user.png" },
     {
       href: "/dashboard/notification",
       label: "Notification",
@@ -45,14 +35,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid grid-cols-[250px_1fr] h-screen">
       {/* Sidebar */}
-      <div className="bg-muted overflow-auto p-4 flex flex-col">
+      <div className="bg-muted dark:bg-gray-900 dark:text-white overflow-auto p-4 flex flex-col">
+        {/* Logo */}
         <div className="my-4 flex justify-center items-center font-bold text-lg py-2 pb-4">
           <Image src="/logo.png" alt="logo" width={30} height={30} />
-          Reimburse Flow
+          <span className="ml-2">Reimburse Flow</span>
         </div>
 
-        <hr />
+        <hr className="border-gray-300 dark:border-gray-700" />
 
+        {/* Nav Items */}
         <ul>
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -63,8 +55,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   className={`rounded-b-sm my-4 p-4 flex items-center cursor-pointer transition
                   ${
                     isActive
-                      ? "bg-white text-black shadow-md"
-                      : "hover:bg-white"
+                      ? "bg-white text-black shadow-md dark:bg-gray-200 dark:text-black"
+                      : "hover:bg-white dark:hover:bg-gray-800 dark:hover:text-white"
                   }`}
                 >
                   <Image
@@ -89,7 +81,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Avatar>
 
           <Link href="/">
-            <div className="flex gap-3 buttonEffects shadow-2xl rounded-2xl py-5 px-9 h-8 bg-white text-black hover:bg-black hover:text-white flex justify-center items-center cursor-pointer">
+            <div
+              className="
+                flex gap-3 shadow-2xl rounded-2xl py-5 px-9 h-8
+                bg-white text-black
+                hover:bg-black hover:text-white
+                dark:bg-gray-200 dark:text-black
+                dark:hover:bg-white dark:hover:text-black
+                justify-center items-center cursor-pointer
+              "
+            >
               <LogOut />
               Logout
             </div>
@@ -98,10 +99,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Main Content */}
-      <div className={`${poppins.className} overflow-auto px-2 py-4`}>
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Welcome back Atta Kofi!
-        </h1>
+      <div
+        className={`${poppins.className} overflow-auto px-2 py-4 bg-white dark:bg-gray-950 dark:text-white`}
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight px-5 text-black dark:text-white">
+              Hello, Atta Kofi!
+            </h1>
+          </div>
+
+          <div className="mr-5">
+            <button className="rounded-full w-10 h-10 flex items-center justify-center">
+              <ToggleDarkandLight />
+            </button>
+          </div>
+        </div>
+
+        <h3 className="px-5 text-gray-500 dark:text-gray-300">
+          Regional Coach
+        </h3>
 
         <div className="mt-6">{children}</div>
       </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -34,35 +33,13 @@ import {
 import { FilePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  selectedDate?: Date | null;
-  setSelectedDate?: React.Dispatch<React.SetStateAction<Date | null>>;
-}
-
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
+export function DataTable({ columns, data }) {
+  const [sorting, setSorting] = React.useState([]);
+  const [columnFilters, setColumnFilters] = React.useState([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
 
-  const [filterMode, setFilterMode] = React.useState<
-    | "all"
-    | "admin"
-    | "finance"
-    | "store"
-    | "area coach"
-    | "regional coach"
-    | "supreme admin"
-    | "online"
-    | "offline"
-  >("all");
+  const [filterMode, setFilterMode] = React.useState("all");
 
   const table = useReactTable({
     data,
@@ -87,11 +64,11 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  // ✅ RESET ALL FILTERS HELPER
   const resetFilters = () => {
     table.getColumn("role")?.setFilterValue(undefined);
     table.getColumn("status")?.setFilterValue(undefined);
   };
+
   const router = useRouter();
 
   return (
@@ -102,21 +79,20 @@ export function DataTable<TData, TValue>({
           placeholder="Filter entire table..."
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className="max-w-sm shadow-md"
+          className="max-w-sm shadow-md bg-white text-black dark:bg-gray-900 dark:text-white"
         />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              className="buttonEffects bg-black text-white hover:text-black hover:bg-white cursor-pointer"
+              className="bg-black text-white hover:bg-white hover:text-black dark:bg-gray-200 dark:text-black dark:hover:bg-white dark:hover:text-black cursor-pointer"
               variant="outline"
             >
               Filter
             </Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
-            {/* ALL */}
+          <DropdownMenuContent className="bg-white text-black dark:bg-gray-900 dark:text-white">
             <DropdownMenuCheckboxItem
               checked={filterMode === "all"}
               onCheckedChange={(checked) => {
@@ -129,7 +105,6 @@ export function DataTable<TData, TValue>({
               All
             </DropdownMenuCheckboxItem>
 
-            {/* ADMIN */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "admin"}
               onCheckedChange={(checked) => {
@@ -143,7 +118,6 @@ export function DataTable<TData, TValue>({
               Admin
             </DropdownMenuCheckboxItem>
 
-            {/* STORE */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "store"}
               onCheckedChange={(checked) => {
@@ -157,7 +131,6 @@ export function DataTable<TData, TValue>({
               Stores
             </DropdownMenuCheckboxItem>
 
-            {/* FINANCE */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "finance"}
               onCheckedChange={(checked) => {
@@ -171,7 +144,6 @@ export function DataTable<TData, TValue>({
               Finance
             </DropdownMenuCheckboxItem>
 
-            {/* AREA COACH */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "area coach"}
               onCheckedChange={(checked) => {
@@ -182,10 +154,9 @@ export function DataTable<TData, TValue>({
                 }
               }}
             >
-              Area Coaches
+              Area Coach
             </DropdownMenuCheckboxItem>
 
-            {/* REGIONAL COACH */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "regional coach"}
               onCheckedChange={(checked) => {
@@ -196,10 +167,9 @@ export function DataTable<TData, TValue>({
                 }
               }}
             >
-              Regional Coaches
+              Regional Coach
             </DropdownMenuCheckboxItem>
 
-            {/* SUPREME ADMIN */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "supreme admin"}
               onCheckedChange={(checked) => {
@@ -213,7 +183,6 @@ export function DataTable<TData, TValue>({
               Supreme Admin
             </DropdownMenuCheckboxItem>
 
-            {/* ONLINE */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "online"}
               onCheckedChange={(checked) => {
@@ -227,7 +196,6 @@ export function DataTable<TData, TValue>({
               Online
             </DropdownMenuCheckboxItem>
 
-            {/* OFFLINE */}
             <DropdownMenuCheckboxItem
               checked={filterMode === "offline"}
               onCheckedChange={(checked) => {
@@ -242,11 +210,10 @@ export function DataTable<TData, TValue>({
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Button
           title="create user"
-          onClick={() => {
-            router.push("/dashboard/users/create-new");
-          }}
+          onClick={() => router.push("/dashboard/users/create-new")}
           className="cursor-pointer"
         >
           <FilePlus />
@@ -254,13 +221,16 @@ export function DataTable<TData, TValue>({
       </div>
 
       {/* TABLE */}
-      <div className="rounded-md border">
+      <div className="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950">
         <Table className="border-separate border-spacing-y-2">
-          <TableHeader className="bg-muted">
+          <TableHeader className="bg-gray-100 dark:bg-gray-800">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-center">
+                  <TableHead
+                    key={header.id}
+                    className="text-center text-black dark:text-white"
+                  >
                     {flexRender(
                       header.column.columnDef.header,
                       header.getContext(),
@@ -274,7 +244,10 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="bg-white shadow-sm">
+                <TableRow
+                  key={row.id}
+                  className="bg-white text-black dark:bg-gray-900 dark:text-white shadow-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center py-3">
                       {flexRender(
@@ -289,7 +262,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="text-center py-10"
+                  className="text-center py-10 text-gray-500 dark:text-gray-400"
                 >
                   No results.
                 </TableCell>
@@ -304,6 +277,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            className="dark:text-white dark:border-gray-600"
           >
             Previous
           </Button>
@@ -312,6 +286,7 @@ export function DataTable<TData, TValue>({
             variant="outline"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            className="dark:text-white dark:border-gray-600"
           >
             Next
           </Button>
