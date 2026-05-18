@@ -1,7 +1,6 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TriangleAlert, Store } from "lucide-react";
 
@@ -109,7 +108,7 @@ const Stores = () => {
               <CardHeader className="flex items-center justify-between pb-5">
                 <CardTitle className="pt-4 font-bold text-lg">
                   <div className="flex items-center gap-3">
-                    <Store className="text-black" />
+                    <Store className="text-black dark:text-white" />
                     {item.id}
                   </div>
 
