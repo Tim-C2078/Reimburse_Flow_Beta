@@ -38,7 +38,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="bg-muted dark:bg-gray-900 dark:text-white overflow-auto p-4 flex flex-col">
         {/* Logo */}
         <div className="my-4 flex justify-center items-center font-bold text-lg py-2 pb-4">
-          <Image src="/logo.png" alt="logo" width={30} height={30} />
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={30}
+            height={30}
+            className="text-black dark:invert"
+          />
           <span className="ml-2">Reimburse Flow</span>
         </div>
 
@@ -60,7 +66,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   }`}
                 >
                   <Image
-                    className="px-1 pr-2"
+                    className={`px-1 pr-2 ${
+                      isActive
+                        ? "brightness-0 dark:brightness-0"
+                        : "dark:invert dark:brightness-0"
+                    }`}
                     src={item.icon}
                     alt={item.label}
                     width={30}
