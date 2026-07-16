@@ -50,7 +50,7 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
       type: payment.type,
     });
 
-    router.push(`/dashboard/edit-pettyCash?${url.toString()}`);
+    router.push(`/rc/edit-pettyCash?${url.toString()}`);
   };
 
   return (

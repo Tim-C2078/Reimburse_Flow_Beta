@@ -17,20 +17,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/dashboard", label: "Dashboard", icon: "/dashboard.png" },
+    { href: "/store", label: "Dashboard", icon: "/dashboard.png" },
     {
-      href: "/dashboard/generate-report",
-      label: "Generate Report",
-      icon: "/PettyCash.png",
-    },
-    { href: "/dashboard/users", label: "User Management", icon: "/users.png" },
-    { href: "/dashboard/shops", label: "Stores", icon: "/user.png" },
-    {
-      href: "/dashboard/notification",
+      href: "/store/notification",
       label: "Notification",
       icon: "/notification.png",
     },
   ];
+
+  const currentTime = new Date().getHours();
 
   return (
     <div className="grid grid-cols-[250px_1fr] h-screen">
@@ -115,7 +110,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight px-5 text-black dark:text-white">
-              Hello, Atta Kofi!
+            {currentTime >= 6 && currentTime < 12 ? "Good Morning! 👋" : currentTime >= 12 && currentTime < 16 ? "Good Afternoon! 👋" : "Good Evening! 👋"}
             </h1>
           </div>
 
@@ -127,7 +122,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <h3 className="px-5 text-gray-500 dark:text-gray-300">
-          Regional Coach
+          Store
         </h3>
 
         <div className="mt-6">{children}</div>

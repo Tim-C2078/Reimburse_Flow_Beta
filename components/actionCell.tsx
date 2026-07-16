@@ -37,7 +37,7 @@ export const ActionsCell = ({ user }: { user: User }) => {
             <Button
               onClick={() =>
                 router.push(
-                  `/dashboard/users/edit-user?id=${user.id}&username=${user.username}&role=${user.role}`,
+                  `/rc/users/edit-user?id=${user.id}&username=${user.username}&role=${user.role}`,
                 )
               }
               className="cursor-pointer"

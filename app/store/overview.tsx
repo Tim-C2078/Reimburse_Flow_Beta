@@ -3,30 +3,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import Lottie from "lottie-react";
-import chartAnimation from "@/app/dashboard/Bar Chart.json";
-import { columns } from "@/components/Store_table/columns";
-import { paymentsData } from "@/components/Store_table/data";
-import { DataTable } from "@/components/Store_table/data-table";
+import chartAnimation from "./Bar Chart.json";
+import TableDesign from "@/components/Users_Table/data-table";
 import {
+  TriangleAlert,
   Clock,
   Landmark,
   ShieldEllipsis,
-  TriangleAlert,
   ScanEye,
 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { log } from "next/dist/server/typescript/utils";
+
 
 const Dashboard = () => {
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
-  const searchParams = useSearchParams();
 
-  const id = searchParams.get("id");
-  const store = searchParams.get("store");
-  const budget = Number(searchParams.get("budget") || 0);
-  const pending = Number(searchParams.get("pending") || 0);
-  const processing = Number(searchParams.get("processing") || 0);
-  const paid = Number(searchParams.get("paid") || 0);
-
+  const budget = 5000;
+  const pending = 4000;
+  const processing = 2500;
+  const paid = 1000;
+  
   const isOverLimit = pending > budget * 0.6;
 
   return (
@@ -34,7 +29,7 @@ const Dashboard = () => {
       {/* HEADER */}
       <div className="mb-5">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-semibold mx-4">{store}</h1>
+          <h1 className="text-2xl font-semibold mx-4">KFC Osu</h1>
           {isOverLimit && (
             <div className="text-white font-semibold flex gap-2 items-center pr-5">
               <TriangleAlert className="text-red-600" />
@@ -144,17 +139,7 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
-
-      {/* TABLE */}
-      <div className="container mx-auto py-10">
-        <DataTable
-          columns={columns}
-          data={paymentsData}
-          stores={store}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
-      </div>
+      <div><TableDesign/></div>
     </>
   );
 };

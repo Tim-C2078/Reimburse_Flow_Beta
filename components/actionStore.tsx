@@ -52,7 +52,7 @@ export const ActionsCell = ({ payment }: { payment: Payment }) => {
       date: payment.date.toISOString(),
     });
 
-    router.push(`/dashboard/shops/edit-pettyCash?${url.toString()}`);
+    router.push(`/rc/shops/edit-pettyCash?${url.toString()}`);
   };
 
   return (

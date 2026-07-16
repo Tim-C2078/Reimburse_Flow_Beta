@@ -17,7 +17,7 @@ export default function Home() {
     setbtn(false);
 
     setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/store");
     }, 4000);
   }
 
