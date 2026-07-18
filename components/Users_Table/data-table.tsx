@@ -3,6 +3,8 @@ import {
   getCoreRowModel,
   flexRender,
   getFilteredRowModel,
+  ColumnFiltersState,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { paymentsData } from "./data";
@@ -22,16 +24,22 @@ import { Trash2 } from "lucide-react";
 import { Funnel } from "lucide-react";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
 } from "../ui/dropdown-menu";
-import { router } from "next/client";
+import { useRouter } from "next/navigation";
 
 export default function TableDesign() {
+  const router = useRouter();
+
   const [data, setData] = useState(paymentsData);
   const [rowSelection, setRowSelection] = useState({});
   const [hidden, setHidden] = useState(true);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [checkedValues, setCheckedValues] = useState("showAll");
 
   const table = useReactTable({
     data,
@@ -40,14 +48,23 @@ export default function TableDesign() {
     onRowSelectionChange: setRowSelection,
     state: {
       rowSelection,
+      columnFilters,
     },
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     enableRowSelection: true,
+    getPaginationRowModel: getPaginationRowModel(),
+    filterFns: {
+      statusFilter: (row, columnId, filterValue) => {
+        const status = row.getValue(columnId);
+
+        return filterValue.includes(status);
+      },
+    },
   });
 
   const selectedRows = table.getSelectedRowModel().rows;
-
-  console.log(selectedRows.map((row) => row.original));
+  console.log(selectedRows.map((row) => row.original.id));
 
   return (
     <div>
@@ -73,26 +90,65 @@ export default function TableDesign() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                className="bg-slate-400 shadow-md text-white hover:bg-white hover:text-black dark:bg-gray-200 dark:text-black dark:hover:bg-white dark:hover:text-black cursor-pointer"
                 variant="outline"
+                className="bg-slate-400 shadow-md text-white hover:bg-white hover:text-black cursor-pointer dark:bg-gray-200 dark:text-black dark:hover:bg-white dark:hover:text-black"
               >
                 <Funnel />
                 Filter
               </Button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="bg-white text-black dark:bg-gray-900 dark:text-white">
-              <DropdownMenuCheckboxItem>Today</DropdownMenuCheckboxItem>
+            <DropdownMenuContent className="bg-white dark:bg-gray-900">
+              <DropdownMenuLabel>Filter Table</DropdownMenuLabel>
 
-              <DropdownMenuCheckboxItem>Show All</DropdownMenuCheckboxItem>
+              <DropdownMenuRadioGroup
+                value={checkedValues}
+                onValueChange={(value) => {
+                  setCheckedValues(value);
 
-              <DropdownMenuCheckboxItem>Unpaid</DropdownMenuCheckboxItem>
+                  /// Adding logic to filter the table based on the selected value
+                  if (value === "showAll") {
+                    setColumnFilters([]);
+                  } else if (value === "today") {
+                    setColumnFilters([
+                      {
+                        id: "date",
+                        value: [new Date()],
+                      },
+                    ]);
+                  } else if (value === "unpaid") {
+                    setColumnFilters([
+                      {
+                        id: "status",
+                        value: [
+                          "pending",
+                          "processing",
+                          "under review",
+                          "approved",
+                          "pending approval",
+                        ],
+                      },
+                    ]);
+                  }
+                }}
+              >
+                <DropdownMenuRadioItem value="showAll">
+                  Show All
+                </DropdownMenuRadioItem>
+
+                <DropdownMenuRadioItem value="today">
+                  Today
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="unpaid">
+                  Unpaid
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
           <Button
             title="create new petty cash"
             variant="outline"
-            onClick={() => router.push(`/rc/shops/create-new?store=${stores}`)}
+            onClick={() => router.push(`/store/create-new`)}
             className="shadow-md cursor-pointer bg-slate-400 text-white hover:bg-white hover:text-black dark:bg-gray-200 dark:text-black dark:hover:bg-white dark:hover:text-black"
           >
             Create New +
@@ -111,7 +167,7 @@ export default function TableDesign() {
             <TableRow key={getHeaderGroup.id}>
               {getHeaderGroup.headers.map((header) => (
                 <TableHead
-                  className="text-center text-black dark:text-white"
+                  className="text-center text-black dark:text-white "
                   key={header.id}
                 >
                   {flexRender(
@@ -127,7 +183,7 @@ export default function TableDesign() {
         <TableBody>
           {table.getRowModel().rows.map((row) => (
             <TableRow
-              className={`text-black dark:text-white shadow-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 ${
+              className={`text-center text-black dark:text-white shadow-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 ${
                 row.getIsSelected()
                   ? "bg-gray-100 dark:bg-gray-700"
                   : "bg-white dark:bg-gray-900"
@@ -144,6 +200,26 @@ export default function TableDesign() {
           ))}
         </TableBody>
       </Table>
+      {/* PAGINATION */}
+      <div className="flex justify-center gap-2 py-4">
+        <Button
+          variant="outline"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+          className="dark:text-white dark:border-gray-600"
+        >
+          Previous
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+          className="dark:text-white dark:border-gray-600"
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

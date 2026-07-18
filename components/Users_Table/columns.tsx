@@ -6,6 +6,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ActionsCell } from "@/components/actionStore";
+import { FilterFn } from "@tanstack/react-table";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -18,11 +19,7 @@ export type Payment = {
   initial_amount: number;
   approved_amount: number;
   comments: "Approved" | string;
-  status:
-    | "pending"
-    | "processing"
-    | "under review"
-    | "paid";
+  status: "pending" | "processing" | "under review" | "paid";
   proofs: string;
   type:
     | "operations"
@@ -158,6 +155,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
+    filterFn: "statusFilter",
     header: ({ column }) => {
       return (
         <Button
@@ -168,21 +166,6 @@ export const columns: ColumnDef<Payment>[] = [
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
-    },
-
-    filterFn: (row, columnId, filterValue) => {
-      const status = row.getValue(columnId) as string;
-
-      // 🔥 THIS IS THE KEY FIX
-      if (filterValue === "hidePaid") {
-        return status !== "paid";
-      }
-
-      if (!filterValue || filterValue === "all") {
-        return true;
-      }
-
-      return status === filterValue;
     },
 
     cell: ({ row }) => {
@@ -262,28 +245,19 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       );
     },
-
     filterFn: (row, columnId, filterValue) => {
-      if (!filterValue) return true;
-
-      const rowDate = new Date(row.getValue(columnId));
-      const selectedDate = new Date(filterValue);
+      const rowDate = row.getValue<Date>(columnId);
+      const filterDate = filterValue[0];
 
       return (
-        rowDate.getFullYear() === selectedDate.getFullYear() &&
-        rowDate.getMonth() === selectedDate.getMonth() &&
-        rowDate.getDate() === selectedDate.getDate()
+        rowDate.getFullYear() === filterDate.getFullYear() &&
+        rowDate.getMonth() === filterDate.getMonth() &&
+        rowDate.getDate() === filterDate.getDate()
       );
     },
-
     cell: ({ row }) => {
       const date = row.getValue("date") as Date;
       return new Date(date).toLocaleDateString();
     },
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => <ActionsCell payment={row.original} />,
   },
 ];
