@@ -23,6 +23,26 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import * as z from "zod";
+
+const formSchema = z.object({
+  initialAmount: z
+    .number()
+    .min(1, { message: "Initial amount must be greater than 0" }),
+  dateStart: z.date({ message: "Please select a valid date" }),
+  dateEnd: z.date({ message: "Please select a valid date" }),
+  type: z
+    .string({ message: "Please select a type" })
+    .nonempty({ message: "Type is required" }),
+  comments: z.string().nonempty({ message: "Comments are required" }),
+  proof_url: z
+    .string({ message: "Please select a proof" })
+    .array()
+    .nonempty({ message: "Proof is required" }),
+  uploadFile: z.instanceof(File, {
+    message: "Please upload excel file.",
+  }),
+});
 
 const CreateNewStore = () => {
   const router = useRouter();
@@ -36,9 +56,7 @@ const CreateNewStore = () => {
         </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <p>Card Content</p>
-      </CardContent>
+      <CardContent></CardContent>
 
       <CardFooter className="flex items-center justify-end gap-3">
         <AlertDialog>

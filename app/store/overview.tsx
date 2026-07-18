@@ -12,16 +12,13 @@ import {
   ShieldEllipsis,
   ScanEye,
 } from "lucide-react";
-import { log } from "next/dist/server/typescript/utils";
-
 
 const Dashboard = () => {
-
   const budget = 5000;
   const pending = 4000;
   const processing = 2500;
   const paid = 1000;
-  
+
   const isOverLimit = pending > budget * 0.6;
 
   return (
@@ -48,7 +45,10 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {budget.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  ${" "}
+                  {budget.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -72,7 +72,10 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {pending.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  ${" "}
+                  {pending.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -97,7 +100,10 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {processing.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  ${" "}
+                  {processing.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -122,7 +128,8 @@ const Dashboard = () => {
             <CardContent>
               <div className="flex items-center justify-between w-full">
                 <h2 className="font-semibold text-2xl truncate max-w-[160px]">
-                  $ {paid.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  ${" "}
+                  {paid.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </h2>
                 <div className="w-16 h-16 flex-shrink-0">
                   <Lottie
@@ -139,7 +146,9 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
-      <div><TableDesign/></div>
+      <div>
+        <TableDesign />
+      </div>
     </>
   );
 };
