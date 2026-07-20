@@ -57,6 +57,7 @@ import {
 } from "@/components/ui/input-group";
 import { Input } from "@/components/ui/input";
 import DatePicker from "react-datepicker";
+import { TriangleAlert, Clock, Landmark, ShieldEllipsis } from "lucide-react";
 
 const formSchema = z.object({
   storeName: z.string(),
@@ -74,9 +75,7 @@ const formSchema = z.object({
     })
     .optional(),
   comments: z.string(),
-  proof_url: z
-    .string({ message: "Please select a proof" })
-    .array(),
+  proof_url: z.string({ message: "Please select a proof" }).array(),
   uploadFile: z.instanceof(File, {
     message: "Please upload excel file.",
   }),
@@ -143,6 +142,7 @@ const CreateNewStore = () => {
                       autoComplete="off"
                       value="KFC OSU"
                       readOnly
+                      className="bg-white"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -165,6 +165,7 @@ const CreateNewStore = () => {
                       placeholder="Enter initial amount"
                       autoComplete="off"
                       value={value}
+                      className="bg-white"
                       onChange={(e) => {
                         const value = Number(e.target.value);
                         setValue(value);
@@ -193,6 +194,7 @@ const CreateNewStore = () => {
                       aria-invalid={fieldState.invalid}
                       placeholder="Enter approvedAmount"
                       autoComplete="off"
+                      className="bg-white"
                       value={value}
                       onChange={(e) => {
                         const value = Number(e.target.value);
@@ -228,7 +230,7 @@ const CreateNewStore = () => {
                           placeholder="Enter start date"
                           autoComplete="off"
                           value={field.value?.toISOString().split("T")[0]}
-                          className="cursor-pointer w-full"
+                          className="cursor-pointer w-full bg-white"
                         />
                       </InputGroup>
                       <Popover>
@@ -270,7 +272,7 @@ const CreateNewStore = () => {
                           placeholder="Enter end date"
                           autoComplete="off"
                           value={field.value?.toISOString().split("T")[0]}
-                          className="cursor-pointer w-full"
+                          className="cursor-pointer w-full bg-white"
                         />
                       </InputGroup>
                       <Popover>
@@ -308,7 +310,7 @@ const CreateNewStore = () => {
                     <SelectTrigger
                       id="form-rhf-demo-type"
                       aria-invalid={fieldState.invalid}
-                      className="cursor-pointer"
+                      className="cursor-pointer bg-white"
                     >
                       <SelectValue placeholder="Select a type" />
                     </SelectTrigger>
@@ -353,7 +355,7 @@ const CreateNewStore = () => {
                       autoComplete="off"
                       value={comments}
                       onChange={(e) => setComments(e.target.value)}
-                      className="h-30 border-2 resize-none p-2"
+                      className="h-30 border-2 resize-none p-2 bg-white dark:bg-accent"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -388,7 +390,7 @@ const CreateNewStore = () => {
                           ].flat(),
                         );
                       }}
-                      className="border-2 cursor-pointer p-2"
+                      className="border-2 cursor-pointer p-2 bg-white dark:bg-accent"
                     />
                     {/* Viewing Seleceted Images */}
                     <div className="flex flex-wrap gap-4">
@@ -401,16 +403,24 @@ const CreateNewStore = () => {
                             src={URL.createObjectURL(file)}
                             loading="lazy"
                             alt="Proofs"
-                            width={300}
-                            height={300}
+                            width={250}
+                            height={250}
                             className="object-contain cursor-pointer"
                           />
-                          <h1
-                            onClick={() => deleteSelecetedProof(index)}
-                            className="text-sm text-gray-600 cursor-pointer underline"
-                          >
-                            Delete
-                          </h1>
+                          <div className="flex items-center justify-evenly pt-5">
+                            <h1
+                              onClick={() => deleteSelecetedProof(index)}
+                              className="text-sm text-gray-600 dark:text-white cursor-pointer underline"
+                            >
+                              Delete
+                            </h1>
+                            <h1
+                              onClick={() => deleteSelecetedProof(index)}
+                              className="text-sm text-gray-600 dark:text-white cursor-pointer underline"
+                            >
+                              Download
+                            </h1>
+                          </div>
                         </div>
                       ))}
                     </div>

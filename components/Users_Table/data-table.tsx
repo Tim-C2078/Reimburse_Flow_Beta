@@ -31,6 +31,7 @@ import {
   DropdownMenuLabel,
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { log } from "next/dist/server/typescript/utils";
 
 export default function TableDesign() {
   const router = useRouter();
@@ -189,7 +190,14 @@ export default function TableDesign() {
                   : "bg-white dark:bg-gray-900"
               }`}
               key={row.id}
-              onClick={() => row.toggleSelected()}
+              onClick={() => {
+                row.toggleSelected();
+                const id = row.original.id;
+                console.log(id);
+              }}
+              onDoubleClick={() => {
+                router.push(`/store/${row.original.id}`);
+              }}
             >
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
@@ -206,7 +214,7 @@ export default function TableDesign() {
           variant="outline"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-          className="dark:text-white dark:border-gray-600"
+          className="dark:text-white dark:border-gray-600 cursor-pointer"
         >
           Previous
         </Button>
@@ -215,7 +223,7 @@ export default function TableDesign() {
           variant="outline"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-          className="dark:text-white dark:border-gray-600"
+          className="dark:text-white dark:border-gray-600 cursor-pointer"
         >
           Next
         </Button>
